@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && rimraf ../server/public && copyfiles -u 1 ./dist/**/* ../server/public",
-    "rimraf": "rimraf ../server/public",
-    "copyfiles": "copyfiles -u 1 ./dist/**/* ../server/public",
+    "build": "vue-cli-service build && rimraf ../public && copyfiles -u 1 ./dist/**/* ../public",
+    "rimraf": "rimraf ../public",
+    "copyfiles": "copyfiles -u 1 ./dist/**/* ../public",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

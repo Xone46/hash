@@ -13,6 +13,10 @@
         </div>
       </div>
     </div>
+    <div class="pdfget">
+          <input type="text" v-model="filename"/>
+          <a @click="getPdf">Show pdf</a>
+    </div>  
     <div class="container">
       <h1>List Clients</h1>
       <hr />
@@ -44,12 +48,25 @@ export default {
       file : null,
       titre : null,
       description : null,
-      clientId : ''
+      clientId : '',
+      filename : ''
 
     };
   },
   components: {},
   methods: {
+
+    getPdf() {
+        RapportService.getRapport(this.filename)
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((error) => {
+            console.error(`HTTP error: ${error.name} => ${error.message}`);
+            throw "fail request at: GET /refreshtime";
+          })
+    },
+
     selectFile() {
 
          this.file = this.$refs.file.files[0];

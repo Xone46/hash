@@ -8,7 +8,7 @@ class ClientService {
     static getClients() {
         return new Promise((resolve, reject) => {
 
-            axios.get(`${process.env.VUE_APP_API_BASE_URL_PRO}/clients/show`)
+            axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/show`)
                 .then(response => {
                     resolve(response.data);
                 })
