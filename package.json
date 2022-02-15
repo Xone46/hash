@@ -4,8 +4,8 @@
   "description": "Web site Gth consult company",
   "main": "main.js",
   "scripts": {
-    "server" : "nodemon main.js ",
-    "client" : "npm run serve",
+    "server": "nodemon main.js ",
+    "client": "npm run serve",
     "start": "node main.js"
   },
   "repository": {
@@ -21,6 +21,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
+    "concurrently": "^7.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
@@ -30,11 +31,7 @@
     "method-override": "^3.0.0",
     "mongoose": "^6.1.4",
     "multer": "^1.4.4",
-    "path": "^0.12.7",
-    "concurrently": "^7.0.0"
-  },
-  "devDependencies": {
-    
+    "path": "^0.12.7"
   },
   "engines": {
     "node": "16.x"
