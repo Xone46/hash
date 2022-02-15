@@ -120,17 +120,6 @@
     max-height: 100%;
 }
 
-#activites .container > .tree {
-}
-#activites .container > .four {
-}
-#activites .container > .five {
-}
-#activites .container > .six {
-}
-
-
-
 /* end activites */
 
 </style>
