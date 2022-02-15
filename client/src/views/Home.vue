@@ -96,9 +96,7 @@
   overflow: hidden;
 }
 
-#activites .container > .one {
 
-}
 
 #activites .container > .one > h1 {
   margin-top: 20px;
