@@ -1,7 +1,7 @@
 <template>
 <div class="dash">
      <div class="container">
-        <div class="menu">
+        <div class="menuParent">
             <b-menu>
                 <b-menu-list label="Menu">
                 <b-menu-item icon="information-outline" label="Informations"></b-menu-item>
@@ -45,8 +45,27 @@
                 </b-menu-list>
             </b-menu>
         </div>   
-        <div class="table">
-            askjdasdui
+        <div class="tableParent" v-if="tableTrue">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date</th>
+                 <th scope="col">Télécharger Pdf</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="element in data" :key="element._id">
+                <th>{{element._id}}</th>
+                <td>{{element.titre}}</td>
+                <td>{{element.description}}</td>
+                <td>{{Date(element.date)}}</td>
+                <td @click="download(element.filename)"> <i class="fa-solid fa-download" ></i> </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
      </div>
 </div>
@@ -55,6 +74,8 @@
 
 <script>
 import DashboardService from "../DashboardService";
+import RapportService from "../RapportService";
+
 
 export default {
   data() {
@@ -71,7 +92,10 @@ export default {
       refClient:  null,
       telephone: null ,
       ville:  null,
-      id : null
+      id : null,
+      data :[],
+      filename: null,
+      tableTrue: false,
     }
   },
 
@@ -84,12 +108,15 @@ export default {
         },
     // Afficher les rapport & Show Rapport  
     showRapport() {
-
+       
         DashboardService.showRapport(this.id)
           .then((data) => {
             if(data) {
-                console.log(data);
-            }
+              this.tableTrue = true
+              data.rapports.forEach(e => {
+                this.data.push(e);
+              });
+                          }
           
           })
           .catch((error) => {
@@ -97,6 +124,18 @@ export default {
             throw "fail request at: GET /refreshtime";
           })
       
+    },
+    download(filename) {
+       this.filename = filename
+       console.log(filename);
+        RapportService.getRapport(this.filename)
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((error) => {
+            console.error(`HTTP error: ${error.name} => ${error.message}`);
+            throw "fail request at: GET /refreshtime";
+          })
     }
   },
   mounted() {
@@ -137,15 +176,15 @@ export default {
   align-items: center;
 
 }
-.dash .container .menu{
-    width: 45%;
-    margin-left: 10px;
+.dash .container .menuParent{
+    width: 25%;
 
 }
-.dash .container .table{
-
-width:75%;
-
+.dash .container .tableParent{
+   width:100%;
+}
+.dash .container .tableParent .table{
+   width:100%;
 }
 
 

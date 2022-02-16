@@ -72,6 +72,10 @@ export default {
              
     },
 
+    mounted() {
+   
+    }
+
 }
 </script>
 
