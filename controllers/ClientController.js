@@ -9,7 +9,7 @@ exports.login = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!(email && password)) {
-        res.status(400).send({ msg: "Toutes les formule sont requises" });
+        res.status(200).send({ msg: "Toutes les formule sont requises" });
     }
 
     const client = await Client.findOne({ email });
@@ -17,7 +17,7 @@ exports.login = async (req, res, next) => {
     if (client) {
 
         if (client.cas === "desactive") {
-            res.status(400).send({ msg: "Votre compte est suspendu, veuillez contacter l'administration" });
+            res.status(200).send({ msg: "Votre compte est suspendu, veuillez contacter l'administration" });
         } else {
 
             let decryptedPassword = await bcrypt.compare(password, client.password);
@@ -33,12 +33,12 @@ exports.login = async (req, res, next) => {
                 );
                 res.status(200).json({ msg: "Vous avez été connecté avec succès", token: token });
             } else {
-                res.status(400).send({ msg: "Désolé mais le mot de passe n'est pas correct" });
+                res.status(200).send({ msg: "Désolé mais le mot de passe n'est pas correct" });
             }
 
         }
     } else {
-        res.status(400).json({ msg: "Désolé mais ce compte n'existe pas" });
+        res.status(200).json({ msg: "Désolé mais ce compte n'existe pas" });
     }
 
 

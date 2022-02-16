@@ -6,7 +6,8 @@
   "scripts": {
     "server": "nodemon main.js ",
     "client": "npm run serve",
-    "start": "node main.js"
+    "start": "node main.js",
+    "dev": "nodemon main.js"
   },
   "repository": {
     "type": "git",
@@ -35,5 +36,8 @@
   },
   "engines": {
     "node": "16.x"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

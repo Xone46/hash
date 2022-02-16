@@ -4,15 +4,30 @@
       <div class="container">
         <img alt="" src="@/assets/logo.png" class="logo">
         <ul class="main-nav">
-          <li><a href="">La société</a></li>
-          <li><a href="">Nos métiers</a></li>
-          <li><a href="">Carrières</a></li>
-          <li><a href="">Espace Clients</a></li>
+          <li>
+            <router-link to="/">
+              <a href="">La société</a>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/nos">
+               <a href="">Nos métiers</a>
+             </router-link>
+          </li>
+          <li>
+            <router-link to="/car">
+               <a href="">Carrières</a>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/client">
+              <a href="">Espace Clients</a>
+            </router-link>
+          </li>
         </ul>
-        <!-- <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> -->
       </div>
     </div>
+
     <router-view/>
 
     <div id="footer" class="footer">

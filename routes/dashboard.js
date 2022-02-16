@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const ClientController = require('../controllers/ClientController');
+const DashboardController = require('../controllers/DashboardController');
 const auth = require('../middleware/auth');
 
 
-router.get('/profile', auth, ClientController.profile);
+router.post('/', auth, DashboardController.index);
 
 
 module.exports = router;

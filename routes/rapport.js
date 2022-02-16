@@ -86,7 +86,7 @@ router.get('/pdf', async (req, res)  => {
 });
 
 // Get all Rapport With client Info
-router.get('/clients', async (req, res)  => {
+router.get('/clients/clientId', async (req, res)  => {
 
   Rapport.aggregate([
       { $lookup:

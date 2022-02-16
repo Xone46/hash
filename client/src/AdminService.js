@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 
-class ClientService {
+class AdminService {
   
     // login Client
 
     static login(email, password) {
         return new Promise((resolve, reject) => {
 
-            axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/login`,  {
+            axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/admins/login`,  {
                 email: email,
                 password: password
               })
@@ -22,19 +22,19 @@ class ClientService {
         })
     }
     // Read Client
-    static getClients() {
-        return new Promise((resolve, reject) => {
+    // static getClients() {
+    //     return new Promise((resolve, reject) => {
 
-            axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/show`)
-                .then(response => {
-                    resolve(response.data);
-                })
-                .catch(error => {
-                    reject(error);
-                });
+    //         axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/show`)
+    //             .then(response => {
+    //                 resolve(response.data);
+    //             })
+    //             .catch(error => {
+    //                 reject(error);
+    //             });
 
-        })
-    }
+    //     })
+    // }
     // create Client 
     // update Client
     // Delete Client
@@ -42,4 +42,4 @@ class ClientService {
 
 }
 
-export default ClientService;
+export default AdminService;

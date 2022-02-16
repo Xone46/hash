@@ -3,11 +3,10 @@ module.exports = async (req, res, next) => {
 
     const token = req.body.token || req.query.token || req.header["x-access-token"] || req.header["x-auth-token"] ;
 
-
     try {
 
         let user = jwt.verify(token, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9");
-        req.user = user = user.email;
+        req.user = user;
         next();
 
     } catch (error) {
@@ -17,7 +16,3 @@ module.exports = async (req, res, next) => {
     }
 
 }
-
-
-
-

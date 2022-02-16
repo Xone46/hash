@@ -8,7 +8,7 @@ exports.login = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!(email && password)) {
-        res.status(400).send({ msg: "Toutes les formule sont requises" });
+        res.status(200).send({ msg: "Toutes les formule sont requises" });
     }
 
     const admin = await Admin.findOne({ email });
@@ -27,12 +27,12 @@ exports.login = async (req, res, next) => {
             );
             res.status(200).json({ msg: "Vous avez été connecté avec succès", token: token, status : admin.status });
         } else {
-            res.status(400).send({ msg: "Désolé mais le mot de passe n'est pas correct" });
+            res.status(200).send({ msg: "Désolé mais le mot de passe n'est pas correct" });
         }
 
 
     } else {
-        res.status(400).json({ msg: "Désolé mais ce compte Admin n'existe pas" });
+        res.status(200).json({ msg: "Désolé mais ce compte Admin n'existe pas" });
     }
 
 
