@@ -51,7 +51,11 @@ export default {
           .then((data) => {
 
             if(data.token) {
-                this.$router.push('DasboardAdmin') 
+
+                sessionStorage.setItem("token", data.token);
+                sessionStorage.setItem("user", 'admin');
+                this.$router.push("/dashadmin").catch(()=>{});
+                 
             }else {
                 this.message = data.msg
                 this.error = 'true'
@@ -66,6 +70,13 @@ export default {
         }
              
     },
+    mounted() {
+
+        if(sessionStorage.getItem("token") && sessionStorage.getItem("user") === 'admin') {
+                this.$router.push("/dashadmin").catch(()=>{});
+        }
+   
+    }
 }
 </script>
 

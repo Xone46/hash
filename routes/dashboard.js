@@ -4,7 +4,8 @@ const DashboardController = require('../controllers/DashboardController');
 const auth = require('../middleware/auth');
 
 
-router.post('/', auth, DashboardController.index);
+router.post('/client', auth, DashboardController.client);
+router.post('/admin', auth, DashboardController.admin);
 
 
 module.exports = router;

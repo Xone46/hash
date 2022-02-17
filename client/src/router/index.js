@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Client from '../views/Client.vue'
 import Admin from '../views/Admin.vue'
 import DashClient from '../views/DashClient.vue'
+import DashAdmin from '../views/DashAdmin.vue'
 
 
 Vue.use(VueRouter)
@@ -38,6 +39,12 @@ const routes = [
     path: '/dashclient',
     name: 'DashClient',
     component: DashClient
+  },
+
+  {
+    path: '/dashadmin',
+    name: 'DashAdmin',
+    component: DashAdmin
   },
 ]
 

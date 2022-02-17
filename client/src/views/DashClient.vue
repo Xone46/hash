@@ -84,6 +84,7 @@ export default {
       isActive: true,
       adresse:  null,
       date:  null,
+      id : null,
       email:  null,
       nom:  null,
       nomSociete: null,
@@ -92,7 +93,6 @@ export default {
       refClient:  null,
       telephone: null ,
       ville:  null,
-      id : null,
       data :[],
       filename: null,
       tableTrue: false,
@@ -101,33 +101,39 @@ export default {
 
   methods : {
     // deconnecter Compte
-      deconnecter() {
+    deconnecter() {
 
               sessionStorage.removeItem('token');
+              sessionStorage.removeItem('id');
+              sessionStorage.removeItem('user');
               this.$router.push("/").catch(()=>{});
         },
     // Afficher les rapport & Show Rapport  
     showRapport() {
-       
-        DashboardService.showRapport(this.id)
+        this.tableTrue = !this.tableTrue 
+        if(this.tableTrue == false) {
+            this.data = []
+        }
+        if(this.tableTrue == true) {
+          this.id = sessionStorage.getItem('id');
+          DashboardService.showRapport(this.id)
           .then((data) => {
             if(data) {
-              this.tableTrue = true
               data.rapports.forEach(e => {
                 this.data.push(e);
-              });
-                          }
-          
+              });       
+            }
           })
           .catch((error) => {
             console.error(`HTTP error: ${error.name} => ${error.message}`);
             throw "fail request at: GET /refreshtime";
           })
-      
+        }
     },
+
+    // download pdf with client
     download(filename) {
-       this.filename = filename
-       console.log(filename);
+        this.filename = filename
         RapportService.getRapport(this.filename)
           .then((data) => {
             console.log(data)
@@ -145,7 +151,7 @@ export default {
             if(data) {
                 this.nom = data.client.nom,
                 this.prenom = data.client.prenom
-                this.id = data.client._id
+                sessionStorage.setItem('id', data.client._id);
             }
           
           })
@@ -173,8 +179,7 @@ export default {
   margin-right: auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-
+  align-items: flex-start;
 }
 .dash .container .menuParent{
     width: 25%;
@@ -183,11 +188,8 @@ export default {
 .dash .container .tableParent{
    width:100%;
 }
-.dash .container .tableParent .table{
+.dash .container .tableParent table{
    width:100%;
 }
-
-
-
 
 </style>

@@ -70,14 +70,14 @@ exports.register = async (req, res, next) => {
             nomSociete: nomSociete,
         }).save()
             .then(() => {
-                res.json({ msg: "Votre compte a été enregistré avec succès" }).status(200);
+                res.json({ msg: "Votre compte a été enregistré avec succès", status: "succes" }).status(200);
             })
             .catch((err) => {
-                res.json({ msg: err.message }).status(400);
+                res.json({ msg: err.message, status: "echec" }).status(400);
             });
 
     } else {
-        res.json({ msg: "Le compte existe déjà" }).status(400);
+        res.json({ msg: "Le compte existe déjà", status: "echec" }).status(400);
     }
 
 }
@@ -92,7 +92,6 @@ exports.profile = async (req, res, next) => {
 
 //Show all clients
 exports.show = async (req, res, next) => {
-
     const client = await Client.find();
     await res.status(200).json({ client });
 

@@ -14,7 +14,7 @@ static getClient(token) {
             }
           };
 
-        axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/dashboard`, postData, axiosConfig)
+        axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/dashboard/client`, postData, axiosConfig)
             .then(response => {
                 resolve(response.data);
             })
@@ -34,6 +34,29 @@ static showRapport(id) {
           };
 
         axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/files/clients/${id}`, axiosConfig)
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    })
+ }
+
+
+
+ static getAdmin(token) {
+    return new Promise((resolve, reject) => {
+        var postData = {
+            token: token,
+          };
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+          };
+
+        axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/dashboard/admin`, postData, axiosConfig)
             .then(response => {
                 resolve(response.data);
             })

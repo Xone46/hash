@@ -55,6 +55,7 @@ export default {
             if(data.token) {
 
                 sessionStorage.setItem("token", data.token);
+                sessionStorage.setItem("user", 'client');
                 this.$router.push("/dashclient").catch(()=>{});
 
             }else {
@@ -73,6 +74,10 @@ export default {
     },
 
     mounted() {
+
+        if(sessionStorage.getItem("token") && sessionStorage.getItem("user") === 'client') {
+                this.$router.push("/dashclient").catch(()=>{});
+        }
    
     }
 
