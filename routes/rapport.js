@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const Rapport = require('../models/Rapport');
+const Client = require('../models/Client');
 const multer = require('multer');
 const fs = require('fs');
 
@@ -58,7 +59,7 @@ router.delete('/pdf/:filename', async (req, res) => {
   try {
     fs.unlinkSync(path)
     await Rapport.remove({filename : filename})
-    await  res.status(200).json({msg : "succes"});
+    await  res.status(200).json({msg : "Le fichier Pdf a été supprimé avec succès"});
   } catch(err) {
     res.status(400).json({msg : err.message});
   }
@@ -81,8 +82,22 @@ const path = `./uploads/${pdf.filename}`;
 
 // get All rapport
 router.get('/pdf', async (req, res)  => {
-  const rapport = await Rapport.find();
-  await  res.status(200).json({rapport});
+  Client.aggregate([
+    { $lookup:
+       {
+         from: 'rapports',
+         localField: '_id',
+         foreignField: 'clientId',
+         as: 'rapports'
+       }
+     }
+    ]).exec((err, rapports) => {
+      if(err) {
+        res.status(400).json({msg: err.message});
+      } else {
+        res.status(200).json({rapports});
+      }
+    });
 });
 
 // Get all Rapport With client Info

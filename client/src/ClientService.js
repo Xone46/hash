@@ -4,6 +4,33 @@ import axios from 'axios'
 class ClientService {
 
 
+    // update Client 
+    static update(clientIdupdate, nom, prenom, email ,password , adresse, ville, pays, telephone, refClient, nomSociete) {
+        return new Promise((resolve, reject) => {
+
+            axios.put(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/update/${clientIdupdate}`, {
+                nom : nom,
+                prenom : prenom,
+                email: email,
+                password : password,
+                adresse : adresse,
+                ville : ville,
+                pays : pays,
+                telephone : telephone,
+                refClient : refClient,
+                nomSociete : nomSociete
+              })
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error.response.data);
+                });
+
+        })
+    }
+
+
     // desactive Client 
     static desactive(clientId) {
         return new Promise((resolve, reject) => {
@@ -52,7 +79,7 @@ class ClientService {
 
         })
     }
-    // Read Client
+    // Read Clients
     static show() {
         return new Promise((resolve, reject) => {
 
@@ -99,8 +126,28 @@ class ClientService {
 
         })
     }
-    // update Client
-    // Delete Client
+
+    static profile(clientId){
+        return new Promise((resolve, reject) => {
+
+            
+            let axiosConfig = {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+              };
+
+            axios.get(`http://localhost:3000/api/clients/profile/${clientId}`, axiosConfig)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+
+        })
+    }
+
 
 
 }

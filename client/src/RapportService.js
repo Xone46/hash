@@ -45,7 +45,7 @@ class RapportService {
             var formData = new FormData();
             formData.append('file', file);
             formData.append('clientId', clientId);
-            axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/rapports/files/update`, formData, {
+            axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/files/update`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }})
@@ -59,7 +59,33 @@ class RapportService {
         })
 
     }
-    // Delete Rapport
+    // Show All Rapport
+    static show() {
+        return new Promise((resolve, reject) => {
+            axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/files/pdf`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error.response.data);
+                });
+
+        })
+    }
+
+    static deleteRapport(filename){
+
+        return new Promise((resolve, reject) => {
+            axios.delete(`${process.env.VUE_APP_API_BASE_URL_DEV}/files/pdf/${filename}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error.response.data);
+                });
+
+        })
+    }
 }
 
 

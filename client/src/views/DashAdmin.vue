@@ -5,8 +5,27 @@
         <b-menu>
           <b-menu-list label="Menu">
             <b-menu-item icon="information-outline" label="Clients">
-              <b-menu-item label="Ajouter un client" @click="flagRegistre = !flagRegistre"></b-menu-item>
-              <b-menu-item label="Aperçu" @click="flagShowTableClients = !flagShowTableClients"></b-menu-item>
+              <b-menu-item label="Ajouter un client" @click="(event) => {
+                this.flagRegistre = true;
+                this.flagShowTableClients = false;
+                this.flagUpdate = false ;
+                this.flagUpdate = false; 
+                this.flagSucces = false;
+                this.flagEchec = false
+                this.nom = ''
+                this.prenom = ''
+                this.email = ''
+                this.password = ''
+                this.adresse = ''
+                this.ville = ''
+                this.pays = ''
+                this.telephone = ''
+                this.refClient = ''
+                this.nomSociete =''
+                }">
+              </b-menu-item>
+              <b-menu-item label="Aperçu" @click="(event) => {this.flagRegistre = false; this.flagShowTableClients = true; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false  }"></b-menu-item>
+              <b-menu-item label="Les rapports" @click="(event) => { this.falgShowRapport= true ;this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.flagUpload = false }"></b-menu-item>  
             </b-menu-item>
 
             <b-menu-item
@@ -53,6 +72,39 @@
           {{ msg }}
         </b-message>
 
+        <!-- Start table Show Rapport -->
+          <table class="table ml-3" v-if="falgShowRapport">
+            <thead>
+              <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Description</th>
+                <th scope="col">Nom et Prenom</th>
+                <th scope="col">Référence</th>
+                <th scope="col">téléphone</th>
+                <th scope="col">Société</th>
+                <th scope="col">Rapports</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="client in clientRapports" :key="client._id">
+                <td>{{ client.titre }}</td>
+                <td>{{client.description}}</td>
+                <td>{{client.nom+' '+client.prenom}}</td>
+                <td>{{client.refClient}}</td>
+                <td>{{client.telephone}}</td>
+                <td>{{ client.nomSociete }}</td>
+                <td>
+                  <ul class="list-group" v-for="rapport in rapports" :key="rapport._id">
+                     <li class="list-group-item" v-if="client._id == rapport.clientId">{{rapport.filename}} <a @click="getRapport(rapport.filename)"> <i class="fa-solid fa-download"></i></a> <a @click="deleteRapport(rapport.filename)"> <i class="fa-solid fa-trash"></i></a></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        <!-- End Table Show Rapport -->
+
         <!-- Start table Show Client -->
           <table class="table ml-3" v-if="flagShowTableClients">
             <thead>
@@ -77,11 +129,144 @@
                 <td>{{element.telephone}}</td>
                 <td>{{element.cas}}</td>
                 <td>{{element.adresse+' '+element.ville+' '+element.pays }}</td>
-                <td><a @click="active(element._id)"><i class="fa-solid fa-check"></i></a> <a @click="desactive(element._id)"><i class="fa-solid fa-xmark"></i> </a> <i class="fa-solid fa-pencil" ></i> </td>
+                <td><a @click="active(element._id)"><i class="fa-solid fa-check"></i></a> <a @click="desactive(element._id)"><i class="fa-solid fa-xmark"></i> </a><a @click="handelUpdate(element._id)"> <i class="fa-solid fa-pencil" ></i></a><a @click="handelUpload(element._id)"> <i class="fa-solid fa-download"></i></a> </td>
               </tr>
             </tbody>
           </table>
+
         <!-- End Table Show Clients -->
+
+
+
+        <!-- Start form Upload -->
+          <div class="form-floating mb-3 ml-3 col-10" v-if="flagUpload">
+            <h1>Ajouter une Pdf</h1><br>
+            <input type="file" class="custom-file-input" id="validatedCustomFile" ref="file" @change="previewFiles" required>
+            <button type="button" class="btn btn-primary" @click="upload">Ajouter Pdf</button>
+            <input type="hidden" v-model="clientIdupload"/>
+          </div> 
+        <!-- End form Upload -->
+
+        <!-- Start update client -->
+        
+
+        <div class="registre" v-if="flagUpdate">
+          <div class="form-floating mb-3 ml-3 col-10">
+            <h1>Ajouter un client</h1>
+          </div>
+          <div class="form-floating mb-3 ml-3 col-10">
+            <input
+              type="text"
+              class="form-control"
+              v-model="nom"
+              placeholder="Nom"
+            />
+            <label for="nom">Nom</label>
+          </div>
+          <div class="form-floating mb-3 ml-3 col-10">
+            <input
+              type="text"
+              class="form-control"
+              v-model="prenom"
+              placeholder="Prénom"
+            />
+            <label for="prenom">Prénom </label>
+          </div>
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="email"
+              class="form-control"
+              v-model="email"
+              placeholder="E-mail"
+            />
+            <label for="email">E-mail </label>
+          </div>
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="password"
+              class="form-control"
+              v-model="password"
+              placeholder="Mot de pass"
+              disabled
+            />
+            <label for="password">Mot de Pass</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="adresse"
+              placeholder="Adresse"
+            />
+            <label for="adresse">Adresse</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="ville"
+              placeholder="Ville"
+            />
+            <label for="ville">Ville</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="pays"
+              placeholder="Pays"
+            />
+            <label for="pays">Pays</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="telephone"
+              placeholder="Téléphone"
+            />
+            <label for="telephone">Téléphone</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="refClient"
+              placeholder="Référence client"
+            />
+            <label for="refClient">Référence client </label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="nomSociete"
+              placeholder="Nom de société"
+            />
+            <label for="nomSociete">Nom de société</label>
+          </div>
+          <input
+              type="hidden"
+              class="form-control"
+              v-model="clientIdupdate"
+              placeholder="Nom de société"
+            />
+
+          <button
+            type="button"
+            class="btn btn-danger mb-3 ml-3"
+            @click="update"
+          >
+            Modifier 
+          </button>
+        </div>
+        <!-- End update Client -->
 
         <div class="registre" v-if="flagRegistre">
           <div class="form-floating mb-3 ml-3 col-10">
@@ -226,12 +411,128 @@ export default {
       flagSucces: false,
       flagEchec: false,
       flagShowTableClients: false,
+      flagUpdate: false,
+      flagUpload : false,
+      falgShowRapport :false,
+      clientIdupdate: null,
+      clientIdupload: null,
+      file : null,
+      clientRapports: [],
+      rapports: [],
     };
   },
 
   methods: {
 
-    //Active Account
+    // delete pdf
+    deleteRapport(filename)
+    {
+      this.filename = filename
+       RapportService.deleteRapport(this.filename)
+       .then((data) => {
+            this.flagSucces = true
+            this.flagEchec= false
+            this.flagShowTableClients= false
+            this.flagUpdate= false
+            this.flagUpload = false
+            this.falgShowRapport = false
+            this.msg = data.msg
+          })
+          .catch((error) => {
+            console.error(`HTTP error: ${error.name} => ${error.message}`);
+            throw "fail request at: GET /refreshtime";
+          })
+    },
+    // get pdf 
+    getRapport(filename){
+      this.filename = filename
+        RapportService.getRapport(this.filename)
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((error) => {
+            console.error(`HTTP error: ${error.name} => ${error.message}`);
+            throw "fail request at: GET /refreshtime";
+          })
+    },
+
+     // previewFiles(pdf)"
+    previewFiles() {
+       this.file = this.$refs.file.files[0];
+    },
+      
+    // upload file pdf
+    upload() {
+        RapportService.insertRapport(this.file, this.clientIdupload)
+        .then((data) => {
+            this.msg = data.msg
+            this.flagSucces = true
+            this.flagEchec= false
+            this.flagShowTableClients= false
+            this.flagUpdate= false,
+            this.flagUpload = false
+        })
+        .catch((error) => {
+              console.error(`HTTP error: ${error.name} => ${error.message}`);
+              throw "fail request at: GET /refreshtime";
+        });
+    },
+    //Handel for Upload
+      handelUpload(e) {
+
+        this.clientIdupload = e
+        this.flagUpload = true
+        this.flagRegistre = false
+        this.flagSucces = false
+        this.flagEchec = false
+        this.flagShowTableClients = false
+        this.flagUpdate = false
+
+      },
+    // handel Form Update
+    handelUpdate(clientId) {
+      ClientService.profile(clientId)
+      .then((data) => {
+        this.clientIdupdate = data.client._id
+        this.nom = data.client.nom
+        this.prenom = data.client.prenom
+        this.email = data.client.email
+        this.password = data.client.password
+        this.adresse = data.client.adresse
+        this.ville = data.client.ville
+        this.pays = data.client.pays
+        this.telephone = data.client.telephone
+        this.refClient = data.client.refClient
+        this.nomSociete = data.client.nomSociete
+      })
+      .catch((error) => {
+              console.error(`HTTP error: ${error.name} => ${error.message}`);
+              throw "fail request at: GET /refreshtime";
+       });
+      
+     this.flagRegistre = false
+     this.flagShowTableClients = false
+     this.flagUpdate = true
+
+    },
+   // Update Client
+    update(){
+       ClientService.update(this.clientIdupdate, this.nom, this.prenom, this.email, this.password, this.adresse, this.ville, this.pays, this.telephone, this.refClient, this.nomSociete)
+          .then((data) => {
+             this.flagSucces = true
+             this.flagEchec = true
+             this.flagRegistre = false
+             this.flagShowTableClients = false
+             this.flagUpdate = false
+             this.msg = data.msg
+          })
+          .catch((error) => {
+              console.error(`HTTP error: ${error.name} => ${error.message}`);
+              throw "fail request at: GET /refreshtime";
+            });
+    },
+    
+    //Active Account client
     desactive(clientId) {
           ClientService.desactive(clientId)  
           .then((data) => {
@@ -243,7 +544,7 @@ export default {
               throw "fail request at: GET /refreshtime";
             });
     },
-    //Active Account
+    //Active Account client
     active(clientId) {
           ClientService.active(clientId)  
           .then((data) => {
@@ -258,6 +559,14 @@ export default {
     
     // register client
     register() {
+      
+      // Generate password auto
+          var chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+          for (var i = 0; i <= 8; i++) {
+            var randomNumber = Math.floor(Math.random() * chars.length);
+            this.password += chars.substring(randomNumber, randomNumber + 1);
+          }
+
       const token = sessionStorage.getItem("token");
       ClientService.register(
         this.nom,
@@ -340,7 +649,6 @@ export default {
   mounted() {
 
     const token = sessionStorage.getItem("token");
-
     // Get Auth Account Admin
       DashboardService.getAdmin(token)
       .then((data) => {
@@ -365,13 +673,33 @@ export default {
         throw "fail request at: GET /refreshtime";
       });
 
-    // Generate password auto
-    var chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-    for (var i = 0; i <= 8; i++) {
-      var randomNumber = Math.floor(Math.random() * chars.length);
-      this.password += chars.substring(randomNumber, randomNumber + 1);
-    }
+
+
+    // Show All rapport
+      RapportService.show()
+      .then((data) => {
+        if (data) {
+          data.rapports.forEach(e => {
+            this.clientRapports.push(e)
+          })
+
+          for(let i = 0 ; i < this.clientRapports.length ; i++ )
+          {
+               for(let j = 0; j < this.clientRapports[i].rapports.length; j++)
+               {
+                      this.rapports.push(this.clientRapports[i].rapports[j])
+               }
+              
+          }
+
+        }
+      })
+      .catch((error) => {
+        console.error(`HTTP error: ${error.name} => ${error.message}`);
+        throw "fail request at: GET /refreshtime";
+      });
   },
+
   created() {
 
   }

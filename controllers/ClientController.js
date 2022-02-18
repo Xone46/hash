@@ -117,12 +117,12 @@ exports.update = async (req, res, next) => {
     let cid = req.params.cid
     // info update
     const { nom, prenom, email, password, adresse, ville, pays, telephone, refClient, nomSociete } = req.body;
-
+    
     let clientInfo = {
         nom,
         prenom,
         email,
-        password: await bcrypt.hash(password, 10),
+        password,
         adresse,
         ville,
         pays,
