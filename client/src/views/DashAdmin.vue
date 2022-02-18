@@ -1,21 +1,24 @@
 <template>
   <div class="dash">
     <div class="container">
+
+<!-- Star Menu       -->
       <div class="menuParent">
         <b-menu>
           <b-menu-list label="Menu">
             <b-menu-item icon="information-outline" label="Clients">
               <b-menu-item label="Ajouter un client" @click="(event) => {
-                this.flagRegistre = true;
-                this.flagShowTableClients = false;
-                this.flagUpdate = false ;
-                this.flagUpdate = false; 
-                this.flagSucces = false;
+                this.flagRegistre = true
+                this.flagShowTableClients = false
+                this.flagUpdate = false 
+                this.flagUpdate = false
+                this.flagSucces = false
                 this.flagEchec = false
+                this.falgShowRapport = false
                 this.nom = ''
                 this.prenom = ''
                 this.email = ''
-                this.password = ''
+                this.password = Math.random().toString(36).slice(-8)
                 this.adresse = ''
                 this.ville = ''
                 this.pays = ''
@@ -24,7 +27,7 @@
                 this.nomSociete =''
                 }">
               </b-menu-item>
-              <b-menu-item label="Aperçu" @click="(event) => {this.flagRegistre = false; this.flagShowTableClients = true; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false  }"></b-menu-item>
+              <b-menu-item label="Aperçu" @click="(event) => {this.flagRegistre = false; this.flagShowTableClients = true; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false  }"></b-menu-item>
               <b-menu-item label="Les rapports" @click="(event) => { this.falgShowRapport= true ;this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.flagUpload = false }"></b-menu-item>  
             </b-menu-item>
 
@@ -54,15 +57,24 @@
         </b-menu>
       </div>
       <div class="tableParent">
+<!-- End Menu -->
+
+
+
+
+<!-- Start flag Success         -->
         <b-message
           class="ml-5"
           title="Success"
           type="is-success"
           aria-close-label="Close message"
           v-if="flagSucces">
-          {{ msg }}
+          {{ msg }} 
         </b-message>
+<!-- End flag Success         -->
 
+
+<!-- Start flag Echec -->
         <b-message
           class="ml-5"
           title="Success"
@@ -71,8 +83,11 @@
           v-if="flagEchec">
           {{ msg }}
         </b-message>
+<!-- End flag Echec -->
 
-        <!-- Start table Show Rapport -->
+
+
+<!-- Start table Show Rapport -->
           <table class="table ml-3" v-if="falgShowRapport">
             <thead>
               <tr>
@@ -103,9 +118,12 @@
             </tbody>
           </table>
 
-        <!-- End Table Show Rapport -->
+<!-- End Table Show Rapport -->
 
-        <!-- Start table Show Client -->
+
+
+
+<!-- Start table Show Client -->
           <table class="table ml-3" v-if="flagShowTableClients">
             <thead>
               <tr>
@@ -134,23 +152,25 @@
             </tbody>
           </table>
 
-        <!-- End Table Show Clients -->
+<!-- End Table Show Clients -->
 
 
 
-        <!-- Start form Upload -->
+<!-- Start form Upload -->
+
           <div class="form-floating mb-3 ml-3 col-10" v-if="flagUpload">
             <h1>Ajouter une Pdf</h1><br>
             <input type="file" class="custom-file-input" id="validatedCustomFile" ref="file" @change="previewFiles" required>
             <button type="button" class="btn btn-primary" @click="upload">Ajouter Pdf</button>
             <input type="hidden" v-model="clientIdupload"/>
           </div> 
-        <!-- End form Upload -->
 
-        <!-- Start update client -->
-        
+<!-- End form Upload -->
 
-        <div class="registre" v-if="flagUpdate">
+
+
+<!-- Start update client -->
+      <div class="registre" v-if="flagUpdate">
           <div class="form-floating mb-3 ml-3 col-10">
             <h1>Ajouter un client</h1>
           </div>
@@ -266,9 +286,16 @@
             Modifier 
           </button>
         </div>
-        <!-- End update Client -->
 
-        <div class="registre" v-if="flagRegistre">
+
+
+<!-- End update Client -->
+
+
+
+<!-- Start Form  Register Admin -->
+
+      <div class="registre" v-if="flagRegistre">
           <div class="form-floating mb-3 ml-3 col-10">
             <h1>Ajouter un client</h1>
           </div>
@@ -371,7 +398,7 @@
 
           <button
             type="button"
-            class="btn btn-danger mb-3 ml-3"
+            class="btn btn-success mb-3 ml-3"
             @click="register"
           >
             Ajouter
@@ -379,6 +406,9 @@
         </div>
       </div>
     </div>
+
+    <!-- End Form Register Client -->
+
   </div>
 </template>
 
@@ -430,13 +460,17 @@ export default {
       this.filename = filename
        RapportService.deleteRapport(this.filename)
        .then((data) => {
-            this.flagSucces = true
-            this.flagEchec= false
-            this.flagShowTableClients= false
-            this.flagUpdate= false
-            this.flagUpload = false
-            this.falgShowRapport = false
-            this.msg = data.msg
+             this.flagSucces = true
+             this.flagEchec = false
+             this.falgShowRapport = false
+             this.flagShowTableClients = false
+             this.flagUpload = false
+             this.flagUpdate = false
+             this.flagRegistre = false
+             this.msg = data.msg
+             setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute)
+              }, 3000); 
           })
           .catch((error) => {
             console.error(`HTTP error: ${error.name} => ${error.message}`);
@@ -467,10 +501,15 @@ export default {
         .then((data) => {
             this.msg = data.msg
             this.flagSucces = true
-            this.flagEchec= false
-            this.flagShowTableClients= false
-            this.flagUpdate= false,
-            this.flagUpload = false
+             this.flagEchec = false
+             this.falgShowRapport = false
+             this.flagShowTableClients = false
+             this.flagUpload = false
+             this.flagUpdate = false
+             this.flagRegistre = false
+             setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute)
+              }, 3000); 
         })
         .catch((error) => {
               console.error(`HTTP error: ${error.name} => ${error.message}`);
@@ -482,11 +521,12 @@ export default {
 
         this.clientIdupload = e
         this.flagUpload = true
-        this.flagRegistre = false
-        this.flagSucces = false
         this.flagEchec = false
+        this.flagSucces = false
+        this.falgShowRapport = false
         this.flagShowTableClients = false
         this.flagUpdate = false
+        this.flagRegistre = false
 
       },
     // handel Form Update
@@ -520,11 +560,16 @@ export default {
        ClientService.update(this.clientIdupdate, this.nom, this.prenom, this.email, this.password, this.adresse, this.ville, this.pays, this.telephone, this.refClient, this.nomSociete)
           .then((data) => {
              this.flagSucces = true
-             this.flagEchec = true
-             this.flagRegistre = false
+             this.flagEchec = false
+             this.falgShowRapport = false
              this.flagShowTableClients = false
+             this.flagUpload = false
              this.flagUpdate = false
+             this.flagRegistre = false
              this.msg = data.msg
+             setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute)
+              }, 3000); 
           })
           .catch((error) => {
               console.error(`HTTP error: ${error.name} => ${error.message}`);
@@ -538,6 +583,15 @@ export default {
           .then((data) => {
              this.flagEchec = true
              this.msg = data.msg
+             this.flagSucces = false
+             this.falgShowRapport = false
+             this.flagShowTableClients = false
+             this.flagUpload = false
+             this.flagUpdate = false
+             this.flagRegistre = false
+             setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute)
+              }, 3000); 
           })
           .catch((error) => {
               console.error(`HTTP error: ${error.name} => ${error.message}`);
@@ -550,6 +604,15 @@ export default {
           .then((data) => {
              this.flagSucces = true
              this.msg = data.msg
+            this.flagEchec = false
+             this.falgShowRapport = false
+             this.flagShowTableClients = false
+             this.flagUpload = false
+             this.flagUpdate = false
+             this.flagRegistre = false 
+             setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute)
+              }, 3000); 
           })
           .catch((error) => {
               console.error(`HTTP error: ${error.name} => ${error.message}`);
@@ -559,14 +622,6 @@ export default {
     
     // register client
     register() {
-      
-      // Generate password auto
-          var chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-          for (var i = 0; i <= 8; i++) {
-            var randomNumber = Math.floor(Math.random() * chars.length);
-            this.password += chars.substring(randomNumber, randomNumber + 1);
-          }
-
       const token = sessionStorage.getItem("token");
       ClientService.register(
         this.nom,
@@ -586,9 +641,16 @@ export default {
             this.msg = data.msg;
 
             if (data.status == "succes") {
-              this.flagRegistre = false
               this.flagSucces = true
               this.flagEchec = false
+              this.falgShowRapport = false
+              this.flagShowTableClients = false
+              this.flagUpload = false
+              this.flagUpdate = false
+              this.flagRegistre = false
+          setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute)
+              }, 3000);    
             }
 
             if (data.status == "echec") {
@@ -623,6 +685,7 @@ export default {
               data.rapports.forEach((e) => {
                 this.data.push(e);
               });
+              
             }
           })
           .catch((error) => {
