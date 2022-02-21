@@ -2,6 +2,10 @@ const Admin = require('../models/Admin');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
+const nodemailer = require("nodemailer");
+var smtpTransport = require('nodemailer-smtp-transport');
+
+
 
 exports.login = async (req, res, next) => {
 
@@ -14,6 +18,9 @@ exports.login = async (req, res, next) => {
     const admin = await Admin.findOne({ email });
 
     if (admin) {
+
+
+        // crypte password
         let decryptedPassword = await bcrypt.compare(password, admin.password);
 
         if (decryptedPassword) {
@@ -43,6 +50,10 @@ exports.login = async (req, res, next) => {
 exports.register = async (req, res, next) => {
 
     const { nom, prenom, email, password, refEmp, status, code } = req.body;
+    
+     const pass = password;
+ 
+        
 
     if (code == "gthconsult") {
 
@@ -62,17 +73,49 @@ exports.register = async (req, res, next) => {
                 code: code,
             }).save()
                 .then(() => {
+
+                // send message with password
+                  var transporter = nodemailer.createTransport(smtpTransport({
+                    host: "smtp-mail.outlook.com", // hostname
+                    secureConnection: false, // TLS requires secureConnection to be false
+                    port: 587, // port for secure SMTP
+                    auth: {
+                        user: '',
+                        pass: '',
+                    },
+                    tls: {
+                        ciphers:'SSLv3'
+                    }
+                }));
+        
+                    // send mail with defined transport object
+                    let info = transporter.sendMail({
+                        from: 'achraflahcen46@hotmail.com', // sender address
+                        to: email, // list of receivers
+                        subject: "GTH Consult", // Subject line
+                        text: '', // plain text body
+                        html: `<b> Création de vos identifiants à GTH Consult et Mot de Passe : ${pass}</b>`,
+                    });
+        
+                    transporter.sendMail(info, function(error, info){
+                        if (error) {
+                          console.log(error);
+                        } else {
+                          console.log('Email sent: ' + info.response);
+                        }
+                      });
+
                     res.status(200).json({ msg: "Votre compte Admin a été enregistré avec succès" });
                 }).catch((err) => {
-                    res.status(400).json({ msg: err.message });
+                    res.status(200).json({ msg: err.message });
                 });
 
         } else {
-            await res.status(400).json({ msg: "Le compte Admin existe déjà" });
+            await res.status(200).json({ msg: "Le compte Admin existe déjà" });
         }
 
     } else {
-        await res.status(400).json({ msg: "vous ne possède le droit pour créer un compte Admin" });
+        res.status(200).json({ msg: "vous ne possède le droit pour créer un compte Admin" });
     }
 
 
@@ -157,7 +200,7 @@ exports.active = async (req, res, next) => {
     // info update
     await Admin.findByIdAndUpdate(aid, { $set: { status: "1" } })
     .then(() => {
-        res.status(200).json({ msg: "Le compte a été Super Admin" });
+        res.status(200).json({ msg: "Le compte a été Active" });
     })
     .catch((err) => {
         res.status(400).json({ msg: err.message });
@@ -173,7 +216,7 @@ exports.desactive = async (req, res, next) => {
     // info update
     await Admin.findByIdAndUpdate(aid, { $set: { status: "0" } })
     .then(() => {
-        res.status(200).json({ msg: "Le compte Admin a été Sub Admin" });
+        res.status(200).json({ msg: "Le compte Admin a été Desactive" });
     })
     .catch((err) => {
         res.status(400).json({ msg: err.message });

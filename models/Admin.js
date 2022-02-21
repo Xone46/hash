@@ -34,12 +34,7 @@ const AdminSchema = new mongoose.Schema({
       required : true,
       trim : true
   },
-  status : {
-      type : String,
-      required : true,
-      trim : true
-  }
-  
+
 });
 const Admin = mongoose.model("Admin", AdminSchema);
 module.exports = Admin;
