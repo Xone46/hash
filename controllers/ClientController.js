@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 const nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
+const Observation = require('../models/Observation');
+
 
 
 // login client
@@ -73,37 +75,38 @@ exports.register = async (req, res, next) => {
             nomSociete: nomSociete,
         }).save()
             .then(() => {
-                var transporter = nodemailer.createTransport(smtpTransport({
-                    host: "smtp-mail.outlook.com", // hostname
-                    secureConnection: false, // TLS requires secureConnection to be false
-                    port: 587, // port for secure SMTP
-                    auth: {
-                        user: '',
-                        pass: '',
-                    },
+
+                var transporter = nodemailer.createTransport({
+                    service : 'gmail',
+
                     tls: {
-                        ciphers:'SSLv3'
+                        rejectUnauthorized: false
+                    },
+
+                    auth: {
+                        user: 'achraflahcen96@gmail.com',
+                        pass: 'BAZ-BOZ2017',
                     }
-                }));
+                });
         
                     // send mail with defined transport object
-                    let info = transporter.sendMail({
-                        from: 'achraflahcen46@hotmail.com', // sender address
+                transporter.sendMail({
+                        from: 'achraflahcen96@gmail.com', // sender address
                         to: email, // list of receivers
                         subject: "GTH Consult", // Subject line
                         text: '', // plain text body
                         html: `<b> Création de vos identifiants Client à GTH Consult et Mot de Passe : ${pass}</b>`,
+                    }, (error, response) => {
+                        if(error) {
+                            res.json({ msg: error }).status(200);
+                        } else {
+                            res.json({ msg: "Votre compte a été enregistré avec succès", status: "succes" }).status(200);
+                        }
+
                     });
         
-                    transporter.sendMail(info, function(error, info){
-                        if (error) {
-                          console.log(error);
-                        } else {
-                          console.log('Email sent: ' + info.response);
-                        }
-                      });
 
-                res.json({ msg: "Votre compte a été enregistré avec succès", status: "succes" }).status(200);
+                
             })
             .catch((err) => {
                 res.json({ msg: err.message, status: "echec" }).status(400);
@@ -119,7 +122,7 @@ exports.profile = async (req, res, next) => {
 
     let cid = req.params.cid
     const client = await Client.findById(cid);
-    await res.status(200).json({ client });
+     res.status(200).json({ client });
 
 }
 
@@ -204,6 +207,77 @@ exports.desactive = async (req, res, next) => {
         res.status(400).json({ msg: err.message });
     });
 
+}
+ // send Observation
+exports.send = async (req, res, next) => {
+
+    const { clientId, message } = req.body;
+    const client = await Client.findById(clientId);
+
+    await Observation({
+        clientId: clientId,
+        email: client.email,
+        telephone: client.telephone,
+        message: message,
+    }).save()
+        .then(() => {
+
+            var transporter = nodemailer.createTransport({
+                service : 'gmail',
+
+                tls: {
+                    rejectUnauthorized: false
+                },
+
+                auth: {
+                    user: 'achraflahcen96@gmail.com',
+                    pass: 'BAZ-BOZ2017',
+                }
+            });
+    
+                // send mail with defined transport object
+            transporter.sendMail({
+                    from: 'achraflahcen96@gmail.com', // sender address
+                    to: 'achraflahcen46@gmail.com', // list of receivers
+                    subject: "GTH Consult", // Subject line
+                    text: '', // plain text body
+                    html: `<b> Message : ${message}</b>`,
+                }, (error, response) => {
+                    if(error) {
+                        res.json({ msg: error }).status(200);
+                    } else {
+                        res.json({ msg: "Votre message a été envoyeé avec succès", status: "succes" }).status(200);
+                    }
+
+                });
+    
+
+            
+        })
+        .catch((err) => {
+            res.json({ msg: err.message, status: "echec" }).status(200);
+        });
+
+}
+
+exports.observation = async (req, res, next) => {
+
+    const observation = await Observation.find();
+    await res.status(200).json({ observation });
+
+}
+
+exports.lu = async (req, res, next) => {
+        // get id
+        let oid = req.params.oid
+        // info update
+        await Observation.findByIdAndUpdate(oid, { $set: { lu: true } })
+        .then(() => {
+            res.status(200).json({ msg: "Le compte a été lu" });
+        })
+        .catch((err) => {
+            res.status(400).json({ msg: err.message });
+        });
 }
 
 

@@ -1,52 +1,52 @@
 <template>
 <div class="dash">
      <div class="container">
+
+         <!-- Start Menu -->
         <div class="menuParent">
             <b-menu>
-                <b-menu-list label="Menu">
-                <b-menu-item icon="information-outline" label="Informations"></b-menu-item>
-                <b-menu-item icon="settings" :active="isActive" expanded>
-                    <template #label="props">
-                    Administration
-                    <b-icon class="is-pulled-right" :icon="props.expanded ? 'menu-up' : 'menu-down'"></b-icon>
-                    </template>
-                    <b-menu-item icon="account" label="Votre compte"></b-menu-item>
-                    <b-menu-item icon="cellphone-link">
-                    <template #label>
-                        Services
-                        <b-dropdown aria-role="list" class="is-pulled-right" position="is-bottom-left">
-                            <template #trigger>
-                                <b-icon icon="dots-vertical"></b-icon>
-                            </template>
-                            <b-dropdown-item aria-role="listitem">Action</b-dropdown-item>
-                            <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
-                            <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
-                        </b-dropdown>
-                    </template>
-                    </b-menu-item>
-                    <b-menu-item icon="cash-multiple" label="Payments" disabled></b-menu-item>
-                </b-menu-item>
-                <b-menu-item icon="account" label="Mon compte">
-                    <b-menu-item label="Les données de compte"></b-menu-item>
-                    <b-menu-item label="Nom et Prénom"></b-menu-item>
-                    <b-menu-item label="Adresses"></b-menu-item>
-                    <b-menu-item label="Email"></b-menu-item>
-                    <b-menu-item label="Telephone"></b-menu-item>
-                    <b-menu-item label="Adresses"></b-menu-item>
-                    <b-menu-item label="Nom de société"></b-menu-item>
-                    <b-menu-item label=" Référence client"></b-menu-item>
-                </b-menu-item>
-                </b-menu-list>
-                <b-menu-list label="pdf">
+                <b-menu-list label="Pdf">
                 <b-menu-item label="Mes Rapport" @click="showRapport"></b-menu-item>
+                </b-menu-list>
+                <b-menu-list label="Services">
+                <b-menu-item label="Observation" @click="handelObservation"></b-menu-item>
                 </b-menu-list>
                 <b-menu-list label="Actions">
                 <b-menu-item label="Se déconnecter" @click="deconnecter"></b-menu-item>
                 </b-menu-list>
             </b-menu>
         </div>   
-        <div class="tableParent" v-if="tableTrue">
-          <table class="table">
+        <!-- End Menu -->
+        
+
+
+        <div class="tableParent">
+
+          <!-- Start flag Success         -->
+                <b-message
+                  class="ml-5"
+                  title="Success"
+                  type="is-success"
+                  aria-close-label="Close message"
+                  v-if="flagSucces">
+                  {{ msg }} 
+                </b-message>
+        <!-- End flag Success         -->
+
+
+        <!-- Start flag Echec -->
+                <b-message
+                  class="ml-5"
+                  title="Success"
+                  type="is-danger"
+                  aria-close-label="Close message"
+                  v-if="flagEchec">
+                  {{ msg }}
+                </b-message>
+        <!-- End flag Echec -->
+
+        <!-- Table Rapports client  -->
+          <table class="table"  v-if="tableTrue">
             <thead>
               <tr>
                 <th scope="col">Id</th>
@@ -66,6 +66,26 @@
               </tr>
             </tbody>
           </table>
+          <!-- End Table Rapports Client -->
+
+
+        <!-- Start Form Observation  -->
+        <div class="registre ml-3" v-if="flagObservation">
+          <div class="form-floating mb-3 ml-3 col-10">
+            <h1>Observation</h1>
+          </div>
+
+        <div class="form-group">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" cols="50" v-model="message"></textarea>
+        </div>
+
+          <button type="button" class="btn btn-success mt-3 ml-3" @click="observation">
+            Envoyer
+          </button>
+        </div>
+        <!-- End Form Observation -->
+
+
         </div>
      </div>
 </div>
@@ -73,6 +93,7 @@
 </template>
 
 <script>
+import ClientService from '../ClientService';
 import DashboardService from "../DashboardService";
 import RapportService from "../RapportService";
 
@@ -96,10 +117,55 @@ export default {
       data :[],
       filename: null,
       tableTrue: false,
+      flagObservation : false,
+      message : null,
+      msg : null,
+      clientId : null,
+      flagSucces : false,
+      flagEchec : false,
+
     }
   },
 
+  computed : {
+
+  },
+
   methods : {
+
+    // handel Observation 
+    handelObservation() {
+
+      this.data = []
+      this.flagObservation = true
+      this.tableTrue =  false
+
+    },
+    // observation 
+
+    observation() {
+
+      this.clientId = sessionStorage.getItem('id')
+
+              ClientService.send(this.clientId, this.message )
+              .then((data) => {
+                  if(data.status == 'succes')
+                  {
+                     this.msg = data.msg
+                     this.flagSucces = true
+                     this.flagObservation = false
+                  } else {
+                     this.msg = data.msg
+                     this.flagEchec = true
+                     this.flagObservation = false
+
+                  }
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+     
+    },
     // deconnecter Compte
     deconnecter() {
 
@@ -110,6 +176,8 @@ export default {
         },
     // Afficher les rapport & Show Rapport  
     showRapport() {
+
+        this.flagObservation = false
         this.tableTrue = !this.tableTrue 
         if(this.tableTrue == false) {
             this.data = []
@@ -189,6 +257,9 @@ export default {
    width:100%;
 }
 .dash .container .tableParent table{
+   width:100%;
+}
+.registre{
    width:100%;
 }
 

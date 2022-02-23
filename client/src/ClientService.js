@@ -90,7 +90,7 @@ class ClientService {
                 }
               };
 
-            axios.get(`http://localhost:3000/api/clients/show`, axiosConfig)
+            axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/show`, axiosConfig)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -137,7 +137,7 @@ class ClientService {
                 }
               };
 
-            axios.get(`http://localhost:3000/api/clients/profile/${clientId}`, axiosConfig)
+            axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/profile/${clientId}`, axiosConfig)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -148,6 +148,58 @@ class ClientService {
         })
     }
 
+    // send Observation
+
+    static send(clientId, message) {
+        return new Promise((resolve, reject) => {
+
+            axios.post(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/send`, {
+                clientId : clientId,
+                message : message
+              })
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+
+        })
+    }
+
+    static observations() {
+        return new Promise((resolve, reject) => {
+
+            
+            let axiosConfig = {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+              };
+
+            axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/observations`, axiosConfig)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+
+        })
+    }
+    static lu(observationId) {
+        return new Promise((resolve, reject) => {
+
+            axios.put(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/observations/update/${observationId}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error.response.data);
+                });
+
+        })
+    }
 
 
 }

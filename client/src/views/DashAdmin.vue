@@ -18,6 +18,7 @@
                 this.flagProfileAdmin = false
                 this.flagShowTableAdmins= false
                 this.flagRegistreAdmin = false
+                this.flagHandlerObservation = false
                 this.nom = ''
                 this.prenom = ''
                 this.email = ''
@@ -30,13 +31,16 @@
                 this.nomSociete =''
                 }">
               </b-menu-item>
-              <b-menu-item label="Aperçu" @click="(event) => {this.flagRegistre = false; this.flagShowTableClients = true; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin = false; }"></b-menu-item>
-              <b-menu-item label="Les rapports" @click="(event) => { this.falgShowRapport= true ;this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.flagUpload = false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin =false }"></b-menu-item>  
+              <b-menu-item label="Aperçu" @click="(event) => {this.flagRegistre = false; this.flagShowTableClients = true; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin = false; this.flagHandlerObservation = false; }"></b-menu-item>
+              <b-menu-item label="Les rapports" @click="(event) => { this.falgShowRapport= true ;this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.flagUpload = false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin =false; this.flagHandlerObservation = false }"></b-menu-item>  
             </b-menu-item>
 
             <b-menu-item icon="information-outline" label="Des employés">
-              <b-menu-item label="Aperçu" @click="(event) => { this.flagShowTableAdmins=true; this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.flagRegistreAdmin= false }"></b-menu-item>
-              <b-menu-item label="Ajouter un admin" @click="(event) => { this.flagRegistreAdmin = true; this.flagShowTableAdmins=false; this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.nom = ''; this.prenom = ''; this.email = ''; this.password = Math.random().toString(36).slice(-8); this.refEmp = ''; this.status = '' }"></b-menu-item>
+              <b-menu-item label="Aperçu" @click="(event) => { this.flagShowTableAdmins=true; this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.flagRegistreAdmin= false; this.flagHandlerObservation = false }"></b-menu-item>
+              <b-menu-item label="Ajouter un admin" @click="(event) => { this.flagRegistreAdmin = true; this.flagShowTableAdmins=false; this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.nom = ''; this.prenom = ''; this.email = ''; this.password = Math.random().toString(36).slice(-8); this.refEmp = ''; this.status = ''; this.flagHandlerObservation = false }"></b-menu-item>
+            </b-menu-item>
+
+            <b-menu-item icon="account" label="Observation" @click="handelObservation()">
             </b-menu-item>
 
             <b-menu-item icon="account" label="Mon Compte" @click="profile()">
@@ -86,36 +90,60 @@
           <table class="table ml-3" v-if="falgShowRapport">
             <thead>
               <tr>
-                <th scope="col">Titre</th>
-                <th scope="col">Description</th>
-                <th scope="col">Nom et Prenom</th>
-                <th scope="col">Référence</th>
-                <th scope="col">téléphone</th>
-                <th scope="col">Société</th>
-                <th scope="col">Rapports</th>
-
+                <th>Référence Rapport</th>
+                <th>Désignation</th>
+                <th>Responsable Client</th>
+                <th>Date Production Contrôle</th>
+                <th>Date d'intervention</th>
+                <th>Type Rapport</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="client in clientRapports" :key="client._id">
-                <td>{{ client.titre }}</td>
-                <td>{{client.description}}</td>
-                <td>{{client.nom+' '+client.prenom}}</td>
-                <td>{{client.refClient}}</td>
-                <td>{{client.telephone}}</td>
-                <td>{{ client.nomSociete }}</td>
-                <td>
-                  <ul class="list-group" v-for="rapport in rapports" :key="rapport._id">
-                     <li class="list-group-item" v-if="client._id == rapport.clientId">{{rapport.filename}} <a @click="getRapport(rapport.filename)"> <i class="fa-solid fa-download"></i></a> <a @click="deleteRapport(rapport.filename)"> <i class="fa-solid fa-trash"></i></a> </li>
-                  </ul>
-                </td>
+              <tr v-for="rapport in clientRapports" :key="rapport._id">
+                  <td>{{ rapport.referenceRapport }}</td>
+                  <td>{{ rapport.designation }}</td>
+                  <td>{{ rapport.responsableClient }}</td>
+                  <td>{{ rapport.dateProductionControle }}</td>
+                  <td>{{ rapport.dateIntervention }}</td>
+                  <td>{{ rapport.category }}</td>
+                  <td>
+                    <ul class="list-group">
+                      <li class="list-group-item">{{rapport.filename}} <a @click="getRapport(rapport.filename)"> <i class="fa-solid fa-download"></i></a> <a @click="deleteRapport(rapport.filename)"> <i class="fa-solid fa-trash"></i></a>  </li>
+                    </ul>
+                  </td>
+                  <td>
+
+                  </td>
+                  
               </tr>
             </tbody>
           </table>
 
 <!-- End Table Show Rapport -->
 
+<!-- Start table Show Observation -->
+          <table class="table ml-3" v-if="flagHandlerObservation">
+            <thead>
+              <tr>
+                <th scope="col">Email</th>
+                <th scope="col">téléphone</th>
+                <th scope="col">Message</th>
+                <th scope="col">ACTIONS</th>
 
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="element in dataObservations" :key="element._id">
+                <td>{{element.email}}</td>
+                <td>{{element.telephone}}</td>
+                <td>{{element.message}}</td>
+                <td><a @click="lu(element._id)"><i class="fa-solid fa-check"></i></a> </td>
+              </tr>
+            </tbody>
+          </table>
+
+<!-- End Table Show Observation -->
 
 
 <!-- Start table Show Client -->
@@ -153,12 +181,113 @@
 
 <!-- Start form Upload -->
 
-          <div class="form-floating mb-3 ml-3 col-10" v-if="flagUpload">
-            <h1>Ajouter une Pdf</h1><br>
-            <input type="file" class="custom-file-input" id="validatedCustomFile" ref="file" @change="previewFiles" required>
-            <button type="button" class="btn btn-primary" @click="upload">Ajouter Pdf</button>
-            <input type="hidden" v-model="clientIdupload"/>
-          </div> 
+        <div class="registre" v-if="flagUpload">
+          <div class="form-floating mb-3 ml-3 col-10">
+            <h1>Ajouter un fichier Pdf</h1>
+          </div>
+
+          <input type="hidden" v-model="clientIdupload"/>
+
+          <div class="form-floating mb-3 ml-3 col-10">
+            <input
+              type="text"
+              class="form-control"
+              v-model="referenceRapport"
+              placeholder="Référence de Rapport"
+            />
+            <label for="Référence de Rapport">Référence de Rapport</label>
+          </div>
+
+          <div class="form-floating mb-3 ml-3 col-10">
+            <input
+              type="text"
+              class="form-control"
+              v-model="designation"
+              placeholder="Désignation"
+            />
+            <label for="Désignation">Désignation</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="date"
+              class="form-control"
+              v-model="dateIntervention"
+              placeholder="Date d'intervention "
+            />
+            <label for="Date d'intervention ">Date d'intervention </label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="responsableClient"
+              placeholder="responsable clientèle"
+              
+            />
+            <label for="responsable clientèle">Responsable clientèle</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <input
+              type="date"
+              class="form-control"
+              v-model="dateProductionControle"
+              placeholder="Date Production Contrôle"
+            />
+            <label for="Date Production Contrôle">Date Production Contrôle</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3">
+            <select class="form-select" aria-label="Default select example" v-model="category" placeholder="Catégorie" @change="handelFlagConroleReglInsTech()">
+              <option value="Contrôle réglementations installations techniques" >Contrôle réglementations installations techniques</option>
+              <option value="Contrôle des risques travailleur">Contrôle des risques travailleur</option>
+              <option value="Contrôle environnement de taux">Contrôle environnement de taux</option>
+              <option value="Formation reglementaires">Formation reglementaires</option>
+            </select>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3" v-if="!flagConroleReglInsTech">
+            <input type="file" class="form-control" placeholder="Fichier PDF" ref="file" @change="previewFiles"/>
+            <label for="Fichier PDF">Fichier PDF</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3" v-if="flagConroleReglInsTech">
+            <input type="file" class="form-control" placeholder="Fichier PDF"  ref="one" @change="previewFilesOne"/>
+            <label for="Fichier PDF">Contrôle installations ascenseurs</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3" v-if="flagConroleReglInsTech">
+            <input type="file" class="form-control" placeholder="Fichier PDF" ref="tow"  @change="previewFilesTow"/>
+            <label for="Fichier PDF"> Contrôle accessoires et appareil de l'usage </label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3" v-if="flagConroleReglInsTech">
+            <input type="file" class="form-control" placeholder="Fichier PDF" ref="tree" @change="previewFilesTree"/>
+            <label for="Fichier PDF">Contrôle dispositif incendie</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3" v-if="flagConroleReglInsTech">
+            <input type="file" class="form-control" placeholder="Fichier PDF" ref="four" @change="previewFilesFour"/>
+            <label for="Fichier PDF">Contrôle appareil à pression</label>
+          </div>
+
+          <div class="form-floating col-10 mb-3 ml-3" v-if="flagConroleReglInsTech">
+            <input type="file" class="form-control" placeholder="Fichier PDF" ref="five" @change="previewFilesFive"/>
+            <label for="Fichier PDF">Autre contrôle</label>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-danger mb-3 ml-3"
+            @click="upload"
+          >
+            Enregistrer 
+          </button>
+
+        </div>
+
 
 <!-- End form Upload -->
 
@@ -560,10 +689,9 @@ export default {
       falgShowRapport :false,
       flagProfileAdmin : false,
       clientIdupdate: null,
-      clientIdupload: null,
-      file : null,
+      file: null,
       clientRapports: [],
-      rapports: [],
+      clients: [],
       adminId: null,
       refEmp: null,
       flagShowTableAdmins : false,
@@ -571,12 +699,57 @@ export default {
       flagRegistreAdmin: false,
       code : null,
       status: null,
+      flagHandlerObservation : false,
+      dataObservations : [],
+      category : null,
+      dateProductionControle: null,
+      responsableClient : null,
+      dateIntervention : null,
+      designation : null,
+      referenceRapport : null,
+      flagConroleReglInsTech : false,
     };
   },
 
   methods: {
+    // handel Cntrole Regle Installation Tech
+    handelFlagConroleReglInsTech() {
+      if(this.category == "Contrôle réglementations installations techniques"){
+       this.flagConroleReglInsTech = true
+      } else {
+        this.flagConroleReglInsTech = false
+      }
+    },
+    // lu message 
+    lu(observationId) {
+       ClientService.lu(observationId)
+       .then((data) => {
+            this.flagSucces = true
+            this.msg = data.msg
+            setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute);
+            },300)
+       })
+       .catch((error) => {
+            console.log(error)
+       })
+    },
+    // handler Observation 
+      handelObservation() {
 
+              this.flagSucces = false
+              this.flagEchec = false
+              this.falgShowRapport = false
+              this.flagShowTableClients = false
+              this.flagUpload = false
+              this.flagUpdate = false
+              this.flagRegistre = false
+              this.flagProfileAdmin = false
+              this.flagShowTableAdmins = false
+              this.flagRegistreAdmin = false
+              this.flagHandlerObservation = true
 
+      },
      // register Admin 
      registerAdmin() {
        console.log(this.nom + ' '+ this.prenom + ' '+ this.email + ' '+ this.password + ' '+ this.refEmp + ' '+ this.status + ' '+ this.code)
@@ -595,6 +768,7 @@ export default {
               this.flagProfileAdmin = false
               this.flagShowTableAdmins = false
               this.flagRegistreAdmin = false
+              this.flagHandlerObservation = false
               
           setTimeout(() => {
                  this.$router.go(this.$router.currentRoute)
@@ -623,6 +797,7 @@ export default {
              this.flagUpdate = false
              this.flagRegistre = false
              this.flagShowTableAdmins = false
+             this.flagHandlerObservation = false
              this.msg = data.msg
              setTimeout(() => {
                  this.$router.go(this.$router.currentRoute)
@@ -647,14 +822,45 @@ export default {
     },
 
      // previewFiles(pdf)"
+
     previewFiles() {
        this.file = this.$refs.file.files[0];
-    },
+     },
+
+    previewFilesOne() {
       
+       this.file = this.$refs.one.files[0];
+    },
+
+    previewFilesTow() {
+       this.file = this.$refs.tow.files[0];
+    },
+
+    previewFilesTree() {
+       this.file = this.$refs.tree.files[0];
+    },
+
+    previewFilesFour() {
+       this.file = this.$refs.four.files[0];
+    },
+
+    previewFilesFive() {
+       this.file = this.$refs.five.files[0];
+    },
+
+ 
     // upload file pdf
     upload() {
-        RapportService.insertRapport(this.file, this.clientIdupload)
+      
+     const eventDateIntervention = new Date(this.dateIntervention);
+     this.dateIntervention = eventDateIntervention.toString();
+
+     const eventDateProductionControle = new Date(this.dateProductionControle);
+     this.dateProductionControle = new Date(eventDateProductionControle).toString();
+
+        RapportService.insertRapport(this.file, this.clientIdupload, this.referenceRapport, this.designation, this.dateIntervention, this.responsableClient, this.dateProductionControle, this.category)
         .then((data) => {
+
              this.msg = data.msg
              this.flagSucces = true
              this.flagEchec = false
@@ -666,6 +872,7 @@ export default {
              this.flagProfileAdmin = false
              this.flagShowTableAdmins = false
              this.flagRegistreAdmin = false
+             this.flagHandlerObservation = false
 
              
              setTimeout(() => {
@@ -691,6 +898,7 @@ export default {
         this.flagProfileAdmin = false
         this.flagShowTableAdmins = false
         this.flagRegistreAdmin = false
+        this.flagHandlerObservation = false
 
 
 
@@ -736,6 +944,7 @@ export default {
               this.flagRegistre = false
               this.flagShowTableAdmins = false
               this.flagRegistreAdmin = false
+              this.flagHandlerObservation = false
               this.flagProfileAdmin = true
               this.nom = data.admin.nom
               this.prenom = data.admin.prenom
@@ -764,6 +973,7 @@ export default {
              this.flagProfileAdmin = false 
              this.flagShowTableAdmins = false
              this.flagRegistreAdmin = false
+             this.flagHandlerObservation = false
 
              setTimeout(() => {
                  this.$router.go(this.$router.currentRoute)
@@ -790,6 +1000,7 @@ export default {
              this.flagProfileAdmin = false 
              this.flagShowTableAdmins = false
              this.flagRegistreAdmin = false
+             this.flagHandlerObservation = false
 
              setTimeout(() => {
                  this.$router.go(this.$router.currentRoute)
@@ -817,6 +1028,7 @@ export default {
              this.flagProfileAdmin = false
              this.flagShowTableAdmins = false
              this.flagRegistreAdmin = false
+             this.flagHandlerObservation = false
 
              this.msg = data.msg
              setTimeout(() => {
@@ -844,6 +1056,7 @@ export default {
              this.flagProfileAdmin = false
              this.flagShowTableAdmins = false
              this.flagRegistreAdmin = false
+             this.flagHandlerObservation = false
 
              setTimeout(() => {
                  this.$router.go(this.$router.currentRoute)
@@ -869,6 +1082,7 @@ export default {
              this.flagProfileAdmin = false 
              this.flagShowTableAdmins = false
              this.flagRegistreAdmin = false
+             this.flagHandlerObservation = false
 
              setTimeout(() => {
                  this.$router.go(this.$router.currentRoute)
@@ -909,6 +1123,7 @@ export default {
               this.flagUpdate = false
               this.flagRegistre = false
               this.flagProfileAdmin = false
+              this.flagHandlerObservation = false
               
           setTimeout(() => {
                  this.$router.go(this.$router.currentRoute)
@@ -975,6 +1190,26 @@ export default {
 
     const token = sessionStorage.getItem("token");
 
+    // show all Observations
+      ClientService.observations()      
+      .then((data) => {
+          //  data.observation.filter((e) => {
+          //    ths.dataObservations.push(e);
+          //  })
+            data.observation.filter((e) => {
+              if(e.lu == false)
+               {
+                 this.dataObservations.push(e);
+               }
+           })
+
+           
+      })
+      .catch((error) => {
+        console.error(`HTTP error: ${error.name} => ${error.message}`);
+        throw "fail request at: GET /refreshtime";
+      });
+
     //Show All admins
       AdminService.show()      
       .then((data) => {
@@ -1019,18 +1254,9 @@ export default {
       .then((data) => {
         if (data) {
           data.rapports.forEach(e => {
-            this.clientRapports.push(e)
+             this.clientRapports.push(e)
+             console.log(e)
           })
-
-          for(let i = 0 ; i < this.clientRapports.length ; i++ )
-          {
-               for(let j = 0; j < this.clientRapports[i].rapports.length; j++)
-               {
-                      this.rapports.push(this.clientRapports[i].rapports[j])
-               }
-              
-          }
-
         }
       })
       .catch((error) => {

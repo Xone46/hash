@@ -1,15 +1,28 @@
 const mongoose = require("mongoose");
 const RapportSchema = new mongoose.Schema({
 
-    titre: {
+    referenceRapport : {
         type: String,
         required: false,
         trim: true,
     },
-    description: {
+    designation: {
         type: String,
         required: false,
         trim: true,
+    },
+    dateIntervention: {
+        type: String,
+        required: false,
+    },
+    responsableClient: {
+        type: String,
+        required: false,
+        trim: true,
+    },
+    dateProductionControle: {
+        type: String,
+        required: false,
     },
     date: {
         type: Date,
@@ -40,7 +53,14 @@ const RapportSchema = new mongoose.Schema({
     clientId: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Client',
         required: true,
-    }
+    },
+    category : {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    
+
 });
 const Rapport = mongoose.model("Rapport", RapportSchema);
 module.exports = Rapport;
