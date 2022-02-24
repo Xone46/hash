@@ -49,7 +49,7 @@
               </b-menu-item> 
             </b-menu-item>
 
-            <b-menu-item icon="information-outline" label="Des employés">
+            <b-menu-item icon="information-outline" label="Des employés" v-if="statusAdmin">
               <b-menu-item label="Aperçu" @click="(event) => { this.flagShowTableAdmins=true; this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.flagRegistreAdmin= false; this.flagHandlerObservation = false }"></b-menu-item>
               <b-menu-item label="Ajouter un admin" @click="(event) => { this.flagRegistreAdmin = true; this.flagShowTableAdmins=false; this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.nom = ''; this.prenom = ''; this.email = ''; this.password = Math.random().toString(36).slice(-8); this.refEmp = ''; this.status = ''; this.flagHandlerObservation = false }"></b-menu-item>
             </b-menu-item>
@@ -111,6 +111,8 @@
                 <th>Date d'intervention</th>
                 <th>Type Rapport</th>
                 <th>Actions</th>
+                <th v-if="statusAdmin">Confirmation</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -126,9 +128,7 @@
                       <li class="list-group-item">{{rapport.filename}} <a @click="getRapport(rapport.filename)"> <i class="fa-solid fa-download"></i></a> <a @click="deleteRapport(rapport.filename)"> <i class="fa-solid fa-trash"></i></a>  </li>
                     </ul>
                   </td>
-                  <td>
-
-                  </td>
+                  <td v-if="statusAdmin"> <button type="button" class="btn btn-primary btn-sm" v-if="rapport.confirmation == 0" @click="validerRapport(rapport.clientId, rapport._id)"> valider </button> <h6 v-if="rapport.confirmation == 1">déjà validé</h6> </td>
                   
               </tr>
             </tbody>
@@ -431,7 +431,7 @@
 
 
 
-<!-- Start Form  Register Admin -->
+<!-- Start Form  Register Client -->
 
       <div class="registre" v-if="flagRegistre">
           <div class="form-floating mb-3 ml-3 col-10">
@@ -442,18 +442,18 @@
               type="text"
               class="form-control"
               v-model="nom"
-              placeholder="Nom"
+              placeholder="Nom ,Admin"
             />
-            <label for="nom">Nom</label>
+            <label for="Nom, Admin">Nom</label>
           </div>
           <div class="form-floating mb-3 ml-3 col-10">
             <input
               type="text"
               class="form-control"
               v-model="prenom"
-              placeholder="Prénom"
+              placeholder="Prénom, Admin"
             />
-            <label for="prenom">Prénom </label>
+            <label for="Prénom, Admin">Prénom </label>
           </div>
           <div class="form-floating col-10 mb-3 ml-3">
             <input
@@ -529,7 +529,7 @@
               type="text"
               class="form-control"
               v-model="nomSociete"
-              placeholder="Nom de société"
+              placeholder="Société"
             />
             <label for="nomSociete">Nom de société</label>
           </div>
@@ -723,12 +723,30 @@ export default {
       referenceRapport : null,
       flagConroleReglInsTech : false,
       year : null,
+      statusAdmin : false
       
     };
   },
 
   methods: {
 
+    // valider Rapport by Admin
+    validerRapport(clientId, rapportId) {
+
+      RapportService.validerRapport(clientId, rapportId)
+      .then((data) => {
+          this.flagSucces = true
+          this.msg = data.msg
+          setTimeout(() => {
+                 this.$router.go(this.$router.currentRoute);
+            },300)
+      })
+      .catch((error) => {
+          console.error(`HTTP error: ${error.name} => ${error.message}`);
+          throw "fail request at: GET /refreshtime";
+      })
+      
+    },
     // show Rapport with year 
     showRapportWithYear() {
       this.clientRapports = [];
@@ -1173,6 +1191,10 @@ export default {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("id");
       sessionStorage.removeItem("user");
+      if(sessionStorage.getItem('status'))
+      {
+          sessionStorage.removeItem("status");
+      }
       this.$router.push("/").catch(() => {});
     },
     // Afficher les rapport & Show Rapport
@@ -1255,6 +1277,10 @@ export default {
       .then((data) => {
         if (data) {
           sessionStorage.setItem("id", data.admin._id);
+          if(data.admin.status == 1)
+          {
+            this.statusAdmin = true
+          }
         }
       })
       .catch((error) => {

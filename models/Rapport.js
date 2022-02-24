@@ -60,6 +60,11 @@ const RapportSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    confirmation : {
+        type : Number,
+        required: true,
+
+    }
     
 
 });

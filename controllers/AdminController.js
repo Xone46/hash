@@ -1,9 +1,8 @@
 const Admin = require('../models/Admin');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config');
+const { JWT_SECRET, PASSWORD, EMAIL } = require('../config');
 const nodemailer = require("nodemailer");
-var smtpTransport = require('nodemailer-smtp-transport');
 
 
 
@@ -52,10 +51,7 @@ exports.register = async (req, res, next) => {
     const { nom, prenom, email, password, refEmp, status, code } = req.body;
     
      const pass = password;
-     const emailDes = email;
  
-        
-
     if (code == "gthconsult") {
 
         const isMatch = await Admin.findOne({ email });
@@ -83,14 +79,14 @@ exports.register = async (req, res, next) => {
                         },
     
                         auth: {
-                            user: 'achraflahcen96@gmail.com',
-                            pass: 'BAZ-BOZ2017',
+                            user: EMAIL,
+                            pass: PASSWORD,
                         }
                     });
 
                // send mail with defined transport object
                 transporter.sendMail({
-                    from: 'achraflahcen96@gmail.com', // sender address
+                    from: EMAIL, // sender address
                     to: email, // list of receivers
                     subject: "GTH Consult", // Subject line
                     text: '', // plain text body

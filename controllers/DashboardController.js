@@ -1,7 +1,7 @@
 const Client = require('../models/Client');
 const Admin = require('../models/Admin');
 
-//Show all clients
+//get client
 exports.client = async (req, res, next) => {
 
     const client = await Client.findOne({ email: { $eq: req.user.email} });

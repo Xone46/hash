@@ -1,9 +1,8 @@
 const Client = require('../models/Client');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config');
+const { JWT_SECRET, PASSWORD, EMAIL } = require('../config');
 const nodemailer = require("nodemailer");
-var smtpTransport = require('nodemailer-smtp-transport');
 const Observation = require('../models/Observation');
 
 
@@ -84,14 +83,14 @@ exports.register = async (req, res, next) => {
                     },
 
                     auth: {
-                        user: 'achraflahcen96@gmail.com',
-                        pass: 'BAZ-BOZ2017',
+                        user: EMAIL,
+                        pass: PASSWORD,
                     }
                 });
         
                     // send mail with defined transport object
                 transporter.sendMail({
-                        from: 'achraflahcen96@gmail.com', // sender address
+                        from: EMAIL, // sender address
                         to: email, // list of receivers
                         subject: "GTH Consult", // Subject line
                         text: '', // plain text body
@@ -230,14 +229,14 @@ exports.send = async (req, res, next) => {
                 },
 
                 auth: {
-                    user: 'achraflahcen96@gmail.com',
-                    pass: 'BAZ-BOZ2017',
+                    user: EMAIL,
+                    pass: PASSWORD,
                 }
             });
     
                 // send mail with defined transport object
             transporter.sendMail({
-                    from: 'achraflahcen96@gmail.com', // sender address
+                    from: EMAIL, // sender address
                     to: 'achraflahcen46@gmail.com', // list of receivers
                     subject: "GTH Consult", // Subject line
                     text: '', // plain text body

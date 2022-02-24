@@ -9,6 +9,7 @@ const multer = require('multer');
 const fs = require('fs');
 const nodemailer = require("nodemailer");
 var moment = require('moment');
+const { EMAIL, PASSWORD } = require('../config');
 
 
 
@@ -28,11 +29,11 @@ const upload = multer({ storage: storage })
 // uploade Rapport with info client
 router.post('/upload', upload.single('file'), async (req, res) => {
 
-  const { adminId, clientId, referenceRapport, designation, dateIntervention, responsableClient, dateProductionControle, category} = req.body
+  const { adminId, clientId, referenceRapport, designation, dateIntervention, responsableClient, dateProductionControle, category } = req.body
   // Get Status  Admin
-   const admin = await Admin.findById(adminId);
-   // Get email Client for send message
-   const client = await Client.findById(clientId);
+  const admin = await Admin.findById(adminId);
+  // Get email Client for send message
+  const client = await Client.findById(clientId);
 
   if (req.file === undefined) {
 
@@ -40,64 +41,65 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
   } else {
 
-    if(admin.status == "0")
-    {
+    if (admin.status == "0") {
       Rapport({
         referenceRapport: referenceRapport,
         designation: designation,
         clientId: clientId,
-        dateIntervention : moment(new Date(dateIntervention)).format('YYYY-MM-DD'),
-        responsableClient : responsableClient,
-        dateProductionControle : moment(new Date(dateProductionControle)).format('YYYY-MM-DD'),
-        category : category,
+        dateIntervention: moment(new Date(dateIntervention)).format('YYYY-MM-DD'),
+        responsableClient: responsableClient,
+        dateProductionControle: moment(new Date(dateProductionControle)).format('YYYY-MM-DD'),
+        category: category,
         pdfPath: req.file.path,
         size: req.file.size,
         date: req.file.uploadDate,
         filename: req.file.filename,
-        originalname: req.file.originalname
+        originalname: req.file.originalname,
+        confirmation: 0
       }).save()
         .then(() => {
           res.status(200).json({ msg: "Téléchargé avec succès mais vous devez attendre la confirmation a Super Admin" });
         })
         .catch((err) => {
-           res.status(200).json({ msg: err.message });
+          res.status(200).json({ msg: err.message });
         });
     }
 
-    if(admin.status == "1")
-    {
+    if (admin.status == "1") {
       Rapport({
         referenceRapport: referenceRapport,
         designation: designation,
         clientId: clientId,
-        dateIntervention : moment(new Date(dateIntervention)).format('YYYY-MM-DD'),
-        responsableClient : responsableClient,
-        dateProductionControle : moment(new Date(dateProductionControle)).format('YYYY-MM-DD'),
-        category : category,
+        dateIntervention: moment(new Date(dateIntervention)).format('YYYY-MM-DD'),
+        responsableClient: responsableClient,
+        dateProductionControle: moment(new Date(dateProductionControle)).format('YYYY-MM-DD'),
+        category: category,
         pdfPath: req.file.path,
         size: req.file.size,
         date: req.file.uploadDate,
         filename: req.file.filename,
-        originalname: req.file.originalname
+        originalname: req.file.originalname,
+        confirmation: 1
+
       }).save()
         .then(() => {
-  
+
           var transporter = nodemailer.createTransport({
             service: 'gmail',
-  
+
             tls: {
               rejectUnauthorized: false
             },
-  
+
             auth: {
-              user: 'achraflahcen96@gmail.com',
-              pass: 'BAZ-BOZ2017',
+              user: EMAIL,
+              pass: PASSWORD,
             }
           });
-  
+
           // send mail with defined transport object
           transporter.sendMail({
-            from: 'achraflahcen96@gmail.com', // sender address
+            from: process.env.EMAIL, // sender address
             to: client.email, // list of receivers
             subject: "GTH Consult", // Subject line
             text: '', // plain text body
@@ -108,13 +110,13 @@ router.post('/upload', upload.single('file'), async (req, res) => {
             } else {
               res.status(200).json({ msg: "Téléchargé avec succès" });
             }
-  
+
           });
-              res.status(200).json({ msg: "Téléchargé avec succès" });
-  
+          res.status(200).json({ msg: "Téléchargé avec succès" });
+
         })
         .catch((err) => {
-           res.status(200).json({ msg: err.message });
+          res.status(200).json({ msg: err.message });
         });
 
     }
@@ -160,12 +162,12 @@ router.get('/pdf', async (req, res) => {
     {
       $lookup:
       {
-        from : 'clients',
+        from: 'clients',
         localField: 'clientId',
         foreignField: '_id',
         as: 'client',
       },
-      
+
 
     }
 
@@ -185,10 +187,10 @@ router.get('/pdf/year/:year', async (req, res) => {
   const rapport = await Rapport.find(
     {
       dateIntervention: {
-          $gte: `${year}-01-01`,
-          $lt: `${year}-12-31`
+        $gte: `${year}-01-01`,
+        $lt: `${year}-12-31`
       }
-  });
+    });
   await res.status(200).json({ rapport });
 
 });
@@ -217,6 +219,56 @@ router.get('/clients/:clientId', async (req, res) => {
 });
 
 
+
+// uploade Rapport with info client
+router.put('/pdf/validated/:clientId/:rapportId', async (req, res) => {
+  // get value id client
+  const clientId = req.params.clientId
+  // get value id rapport
+  const rapportId = req.params.rapportId
+  // Get email Client for send message
+  const client = await Client.findById(clientId);
+  // change value confirmation (true) rapport
+  await Rapport.findByIdAndUpdate(rapportId, { $set: { "confirmation": 1 } })
+    .then(() => {
+
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+
+        tls: {
+          rejectUnauthorized: false
+        },
+
+        auth: {
+          user: EMAIL,
+          pass: PASSWORD,
+        }
+      });
+
+      // send mail with defined transport object
+      transporter.sendMail({
+        from: EMAIL, // sender address
+        to: client.email, // list of receivers
+        subject: "GTH Consult", // Subject line
+        text: '', // plain text body
+        html: `<b> GTH Consult ajoute un fichie Pdf pour vous</b>`,
+      }, (error, response) => {
+        if (error) {
+          res.json({ msg: error }).status(200);
+        } else {
+          res.status(200).json({ msg: "Il a été validé avec succès et envoyé au client" });
+        }
+
+      });
+
+    })
+    .catch((err) => {
+      res.status(200).json({ msg: err.message });
+    });
+
+
+
+})
 
 
 module.exports = router;

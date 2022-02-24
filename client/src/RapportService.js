@@ -107,6 +107,21 @@ class RapportService {
 
         })
     }
+
+
+        // Send Message Email about validated Rapport 
+        static validerRapport(clientId, rapportId) {
+            return new Promise((resolve, reject) => {
+                axios.put(`${process.env.VUE_APP_API_BASE_URL_DEV}/files/pdf/validated/${clientId}/${rapportId}`)
+                    .then(response => {
+                        resolve(response.data);
+                    })
+                    .catch(error => {
+                        reject(error.response.data);
+                    });
+    
+            })
+        }
 }
 
 

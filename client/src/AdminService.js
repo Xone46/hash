@@ -4,7 +4,6 @@ import axios from 'axios'
 class AdminService {
   
     // login Admin
-
     static login(email, password) {
         return new Promise((resolve, reject) => {
 
@@ -21,7 +20,7 @@ class AdminService {
 
         })
     }
-
+    // Register Admin
     static register(nom, prenom, email, password, refEmp, status, code) {
         return new Promise((resolve, reject) => {
 
@@ -72,20 +71,6 @@ class AdminService {
 
         })
     }
-    // Read Client
-    // static getClients() {
-    //     return new Promise((resolve, reject) => {
-
-    //         axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/clients/show`)
-    //             .then(response => {
-    //                 resolve(response.data);
-    //             })
-    //             .catch(error => {
-    //                 reject(error);
-    //             });
-
-    //     })
-    // }
     // active Admin 
         static activeAdmin(adminId) {
             return new Promise((resolve, reject) => {
@@ -101,7 +86,7 @@ class AdminService {
             })
         }
       
-    // desactive 
+    // desactive  Admin
     
     static desactiveAdmin(adminId) {
         return new Promise((resolve, reject) => {
