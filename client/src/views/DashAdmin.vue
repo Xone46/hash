@@ -32,7 +32,21 @@
                 }">
               </b-menu-item>
               <b-menu-item label="Aperçu" @click="(event) => {this.flagRegistre = false; this.flagShowTableClients = true; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin = false; this.flagHandlerObservation = false; }"></b-menu-item>
-              <b-menu-item label="Les rapports" @click="(event) => { this.falgShowRapport= true ;this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.flagUpload = false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin =false; this.flagHandlerObservation = false }"></b-menu-item>  
+              <b-menu-item label="Les rapports" @click="(event) => { this.falgShowRapport= true ;this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.flagUpload = false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin =false; this.flagHandlerObservation = false }"> 
+                <select  v-model="year" @change="showRapportWithYear">
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                  <option value="2019">2019</option>
+                  <option value="2017">2017</option>
+                  <option value="2016">2016</option>
+                  <option value="2015">2015</option>
+                  <option value="2014">2014</option>
+                  <option value="2013">2013</option>
+                  <option value="2012">2012</option>
+                </select>
+              </b-menu-item> 
             </b-menu-item>
 
             <b-menu-item icon="information-outline" label="Des employés">
@@ -617,8 +631,8 @@
                     </div>
                     <div class="form-floating col-10 mb-3 ml-3">
                       <select class="form-control" id="exampleFormControlSelect1" v-model="status">
-                        <option value="1">Active</option>
-                        <option value="0">Desactive</option>
+                        <option value="1">Super Admin</option>
+                        <option value="0">Sub Admin</option>
                       </select>
                       <label for="Status employeur">Status employeur</label>
                     </div>
@@ -708,10 +722,28 @@ export default {
       designation : null,
       referenceRapport : null,
       flagConroleReglInsTech : false,
+      year : null,
+      
     };
   },
 
   methods: {
+
+    // show Rapport with year 
+    showRapportWithYear() {
+      this.clientRapports = [];
+      RapportService.showRapportWithYear(this.year)
+      .then((data) => {
+        if(data) {
+          data.rapport.forEach(e => {
+             this.clientRapports.push(e)
+          })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    },
     // handel Cntrole Regle Installation Tech
     handelFlagConroleReglInsTech() {
       if(this.category == "Contrôle réglementations installations techniques"){
@@ -851,14 +883,9 @@ export default {
  
     // upload file pdf
     upload() {
-      
-     const eventDateIntervention = new Date(this.dateIntervention);
-     this.dateIntervention = eventDateIntervention.toString();
 
-     const eventDateProductionControle = new Date(this.dateProductionControle);
-     this.dateProductionControle = new Date(eventDateProductionControle).toString();
-
-        RapportService.insertRapport(this.file, this.clientIdupload, this.referenceRapport, this.designation, this.dateIntervention, this.responsableClient, this.dateProductionControle, this.category)
+        const adminId = sessionStorage.getItem("id");
+        RapportService.insertRapport(adminId, this.file, this.clientIdupload, this.referenceRapport, this.designation, this.dateIntervention, this.responsableClient, this.dateProductionControle, this.category)
         .then((data) => {
 
              this.msg = data.msg
@@ -1255,7 +1282,6 @@ export default {
         if (data) {
           data.rapports.forEach(e => {
              this.clientRapports.push(e)
-             console.log(e)
           })
         }
       })

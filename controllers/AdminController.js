@@ -52,6 +52,7 @@ exports.register = async (req, res, next) => {
     const { nom, prenom, email, password, refEmp, status, code } = req.body;
     
      const pass = password;
+     const emailDes = email;
  
         
 
@@ -221,6 +222,8 @@ exports.desactive = async (req, res, next) => {
     });
 
 }
+
+
 
 
 

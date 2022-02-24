@@ -2,14 +2,14 @@ import axios from 'axios'
 
 class RapportService {
     // Created Rapport
-    static insertRapport(file, clientIdupload, referenceRapport, designation, dateIntervention, responsableClient, dateProductionControle, category) {
+    static insertRapport(adminId, file, clientIdupload, referenceRapport, designation, dateIntervention, responsableClient, dateProductionControle, category) {
         return new Promise((resolve, reject) => {
             var formData = new FormData();
+            formData.append('adminId', adminId);
             formData.append('file', file);
             formData.append('clientId', clientIdupload);
             formData.append('referenceRapport',referenceRapport);
             formData.append('designation',designation);
-            formData.append('dateIntervention',dateIntervention);
             formData.append('dateIntervention',dateIntervention);
             formData.append('responsableClient',responsableClient);
             formData.append('dateProductionControle',dateProductionControle);
@@ -71,6 +71,19 @@ class RapportService {
     static show() {
         return new Promise((resolve, reject) => {
             axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/files/pdf`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    reject(error.response.data);
+                });
+
+        })
+    }
+
+    static showRapportWithYear(year) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${process.env.VUE_APP_API_BASE_URL_DEV}/files/pdf/year/${year}`)
                 .then(response => {
                     resolve(response.data);
                 })

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const year = new Date()
 const RapportSchema = new mongoose.Schema({
 
     referenceRapport : {
@@ -26,7 +27,7 @@ const RapportSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now,
+        default: new Date(),
         required: false,
     },
     pdfPath : {
