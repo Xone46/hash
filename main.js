@@ -66,9 +66,10 @@ if(NODE_ENV === 'production') {
 }
 
 
+var serverPort = 3000;
 
 // pour declanche le serveur
-app.listen(PORT, () => {
+app.listen(PORT || serverPort, () => {
     console.log(`Server Running with port: ${PORT}`);
 })
 
