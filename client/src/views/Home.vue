@@ -167,7 +167,7 @@
                 <div class="desc">
                   <h1> GTH consult</h1>
                   <p>
-                  Le Groupe Qualiconsult recherche <br>
+                  Le Groupe Gthconsult recherche <br>
                   sans cesse de nouveaux talents et <br> 
                   compétences : contrôleur technique, coordonnateur <br>
                   SPS, diagnostiqueur immobilier, technicien... Découvrez <br>
