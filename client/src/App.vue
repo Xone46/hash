@@ -30,7 +30,7 @@
                   <a href="#gthconsult">GTH consult</a>
               </li>
               <li>
-                  <a href="#prestations">Nos prestations</a>
+                  <a href="#prestation">Nos prestations</a>
               </li>
               <li>
                   <a href="#solutions">Nos solutions</a>
@@ -39,9 +39,6 @@
                 <router-link to="/client">
                   <a href="">Espace Clients</a>
                 </router-link>
-              </li>
-              <li>
-                  <a href="#car">Carrières</a>
               </li>
               <li>
                   <a href="#contacter">Nous contacter</a>
@@ -63,10 +60,13 @@
 </template>
 
 <style scoped>
+#app {
+  height: 100%;
+}
 .header{
   position: fixed;
   width: 100%;
-  z-index: 2;
+  z-index: 1000;
 }
 
 .header .container {
