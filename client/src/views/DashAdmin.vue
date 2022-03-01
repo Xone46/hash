@@ -1334,7 +1334,8 @@ export default {
 <style>
 .dash {
   height: 100%;
-  margin-top: 20px;
+  margin-top: 0px;
+  padding: 0;
 }
 
 .dash .container {
@@ -1345,6 +1346,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  height: 100vh;
 }
 .dash .container .menuParent {
   width: 25%;
