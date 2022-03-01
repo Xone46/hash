@@ -4,19 +4,19 @@
   <div class="landing">
       <div class="container">
 
-        <div class="image">
+        <div class="image" v-bind:class="{ 'cover1': cover1, 'cover2': cover2, 'cover3': cover3 }">
             <div class="text">
               <div class="content">
                 <h1>GTH Consult <br>Pour le respect de vos obligations réglementaires et volontaires</h1>
                 <p>Vérifications Réglementaires ou volontaires des installations techniques et des risques au travail</p>
               </div>
             </div>
-            <i class="fas fa-angle-left change-background fa-2x"></i>
-            <i class="fas fa-angle-right change-background fa-2x"></i>
+            <a @click="slider('left')"><i  class="fas fa-angle-left change-background fa-2x"></i></a>
+            <a @click="slider('right')"><i class="fas fa-angle-right change-background fa-2x"></i></a>
             <ul class="bullets">
-              <li></li>
-              <li class="active"></li>
-              <li></li>
+              <li @mouseover="selectSlider(1)"></li>
+              <li @mouseover="selectSlider(2)" class="active"></li>
+              <li @mouseover="selectSlider(3)"></li>
             </ul>
         </div>
       </div>
@@ -86,29 +86,29 @@
 
             <div class="titre">
 
-              <div class="titreBox" @mouseover="Image(1)">
-                  <h1>Contrôles réglementaires des installations techniques</h1>
-              </div>
+                        <div class="titreBox" @mouseover="Image(1)">
+                            <h1>Contrôles réglementaires des installations techniques</h1>
+                        </div>
 
-              <div class="titreBox" @mouseover="Image(2)">
-                  <h1>Formations réglementaires et techniques</h1> 
-              </div>
+                        <div class="titreBox" @mouseover="Image(2)">
+                            <h1>Formations réglementaires et techniques</h1> 
+                        </div>
 
-              <div class="titreBox" @mouseover="Image(3)">
-                  <h1>Audits et assistance technique</h1> 
-              </div>
+                        <div class="titreBox" @mouseover="Image(3)">
+                            <h1>Audits et assistance technique</h1> 
+                        </div>
 
-              <div class="titreBox" @mouseover="Image(4)">
-                  <h1>Contrôles risques travailleurs</h1>
-              </div>
-              
-              <div class="titreBox" @mouseover="Image(5)">
-                  <h1>Contrôles environnementaux</h1> 
-              </div>
+                        <div class="titreBox" @mouseover="Image(4)">
+                            <h1>Contrôles risques travailleurs</h1>
+                        </div>
+                        
+                        <div class="titreBox" @mouseover="Image(5)">
+                            <h1>Contrôles environnementaux</h1> 
+                        </div>
 
             </div>
 
-            <div class="images" v-bind:style="{ 'background-image': 'url(../assets/2.jpg)' }">
+            <div v-bind:class="{ 'images1': images1, 'images2': images2, 'images3': images3, 'images4': images4, 'images5': images5 }">
             </div>
 
         </div>
@@ -217,9 +217,18 @@
 
 .landing .container .image {
   min-height: 100vh;
-  background-image: url('../assets/1.jpg');
   background-size: cover;
   position: relative;
+}
+
+.landing .container .cover1 {
+  background-image: url('../assets/1.jpg');
+}
+.landing .container .cover2 {
+  background-image: url('../assets/2.jpg');
+}
+.landing .container .cover3 {
+  background-image: url('../assets/3.jpg');
 }
 
 .landing .container .image .text {
@@ -424,7 +433,7 @@
  }
 
 .prestation .container .titre {
-    width: 50%;
+    width: 100%;
     position: relative;
 
 }
@@ -462,16 +471,48 @@
   color: white;
 }
 
-
-.prestation .container .images {
-    width: 50%;
-}
-
-.prestation .container .images {
-    width: 50%;
+.prestation .container .images1 {
+    padding: 0;
+    width: 100%;
     position: relative;
-  
+    background-image: url('../assets/prestation/1.jpg');
+    background-size: cover;
+    height: 60vh;
 }
+
+.prestation .container .images2 {
+    padding: 0;
+    width: 100%;
+    position: relative;
+    background-image: url('../assets/prestation/2.jpg');
+    background-size: cover;
+    height: 60vh;
+}
+.prestation .container .images3 {
+    padding: 0;
+    width: 100%;
+    position: relative;
+    background-image: url('../assets/prestation/3.jpg');
+    background-size: cover;
+    height: 60vh;
+}
+.prestation .container .images4 {
+    padding: 0;
+    width: 100%;
+    position: relative;
+    background-image: url('../assets/prestation/4.jpg');
+    background-size: cover;
+    height: 60vh;
+}
+.prestation .container .images5 {
+    padding: 0;
+    width: 100%;
+    position: relative;
+    background-image: url('../assets/prestation/5.jpg');
+    background-size: cover;
+    height: 60vh;
+}
+
 
 /* end prestation */
 
@@ -621,7 +662,7 @@
       color: white;
       font-size: 20px;
     }
-
+/* End Contact */
 
 /* Start footer */
 .footer{
@@ -754,13 +795,128 @@ export default {
   name: "Home",
   data() {
     return {
-      image : null,
-    };
+      images1: true,
+      images2: false,
+      images3: false,
+      images4: false,
+      images5: false,
+      cover1 : true,
+      cover2 : false,
+      cover3 : false,
+    }
   },
   methods : {
 
+    slider(value) {
+
+      if(value == "right") {
+
+        const arr = new Array();
+        arr[1] = this.cover1
+        arr[2] = this.cover2
+        arr[3] = this.cover3
+        const index = arr.findIndex((n) => n == true)
+        
+        switch(index) {
+          case 1:
+             this.cover1 = false
+             this.cover2 = true
+            break;
+          case 2:
+             this.cover2 = false
+             this.cover3 = true
+            break;
+          case 3:
+             this.cover3 = false
+             this.cover1 = true
+            break;  
+        }
+      }
+        
+      if(value == "left") {
+
+        const arr = new Array();
+        arr[1] = this.cover1
+        arr[2] = this.cover2
+        arr[3] = this.cover3
+        const index = arr.findIndex((n) => n == true)
+        
+        switch(index) {
+          case 1:
+             this.cover1 = false
+             this.cover3 = true
+            break;
+          case 2:
+             this.cover2 = false
+             this.cover1 = true
+            break;
+          case 3:
+             this.cover3 = false
+             this.cover2 = true
+            break;  
+        }
+
+      }
+
+    },
+
+    selectSlider(value) {
+      
+        if(value == 1) {
+           this.cover1 = true
+           this.cover2 = false
+           this.cover3 = false
+        }
+        if(value == 2) {
+           this.cover1 = false
+           this.cover2 = true
+           this.cover3 = false
+        }
+        if(value == 3) {
+           this.cover1 = false
+           this.cover2 = false
+           this.cover3 = true        }
+    },
+
     Image(value) {
-      this.image = `../assets/${value}.jpg`
+
+      if(value == 1) {
+        this.images1 = true
+        this.images2 = false,
+        this.images3 = false,
+        this.images4 = false,
+        this.images5 = false
+      }
+
+      if(value == 2) {
+        this.images1 = false
+        this.images2 = true,
+        this.images3 = false,
+        this.images4 = false,
+        this.images5 = false
+      }
+      if(value == 3) {
+        this.images1 = false
+        this.images2 = false,
+        this.images3 = true,
+        this.images4 = false,
+        this.images5 = false
+      }
+      if(value == 4) {
+        this.images1 = false
+        this.images2 = false,
+        this.images3 = false,
+        this.images4 = true,
+        this.images5 = false
+      }
+      if(value == 5) {
+        this.images1 = false
+        this.images2 = false,
+        this.images3 = false,
+        this.images4 = false,
+        this.images5 = true
+      }
+
     }
   },
 
