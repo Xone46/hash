@@ -28,39 +28,40 @@
             <div class="card">
               <img src="../assets/risk.png"  class="risk" alt="risk">
                 <h1>Maîtrise des risques</h1>
-                <p> Accompagner les chefs d’établissements et les
+                <span> 
+                    Accompagner les chefs d’établissements et les
                     exploitants pour répondre à leurs obligations
                     réglementaires ou volontaires en matière de gestion
                     des risques professionnels, protection des personnes
                     et des biens ainsi que de l’environnement.
-                </p>
+                </span>
             </div>
           </div>
           <div class="blogTow">
             <div class="card">
                 <img src="../assets/know.png"  class="know" alt="know">
                 <h1>Partage du savoir</h1>
-                <p>
+                <span>
                   Notre capital est notre savoir-faire, nos compétences
                   et le respect de la réglementation. Notre vocation de
                   tierce partie indépendante nous impose le partage de
                   ces compétences et de ces savoirs entre nos
                   collaborateurs, avec nos clients et les institutions.
-                </p>
+                </span>
             </div>
           </div>
           <div class="blogTree">
             <div class="card">
                 <img src="../assets/quality.png"  class="quality" alt="quality">
                 <h1>Interlocuteur privilégié</h1>
-                <p>
+                <span>
                   Mettre à la disposition de notre client un interlocuteur
                   unique habilité à prendre toute décisions pour
                   garantir la qualité de nos prestations, le respect de
                   nos engagements et notre disponibilité pour nos
                   clients.
 
-                </p>
+                </span>
             </div>
           </div>
           <div class="blogFour">
@@ -156,45 +157,7 @@
       </div>
 
 
-      <div class="footer">
-        <div class="container">
-          <div class="all">
 
-              <div class="merge">
-                <div class="img">
-                  <img src="@/assets/logo.png" alt="">
-                </div>
-                <div class="desc">
-                  <h1> GTH consult</h1>
-                  <p>
-                  Le Groupe Gthconsult recherche <br>
-                  sans cesse de nouveaux talents et <br> 
-                  compétences : contrôleur technique, coordonnateur <br>
-                  SPS, diagnostiqueur immobilier, technicien... Découvrez <br>
-                  nos opportunités de carrière !</p>
-                </div>
-              </div>
-
-              <ul>
-                <li><a href="">© 2022 Bureau GTHconsult |</a></li>
-                <li><a href="">Plan du site |</a> </li>
-                <li><a href="">Mentions légales |</a></li>
-                <li><a href="">Politique de confidentialité |</a></li>
-                <li><a href="">Politique Cookies </a></li>
-              </ul>
-
-          </div>
-          <div class="social">
-            <ul>
-              <li><a href=""><i class="fa-brands fa-facebook"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-twitter"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-linkedin"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
-            </ul>
-          </div>            
-        </div>
-      </div>
   </div>
 
 
@@ -392,10 +355,11 @@
   font-size: 25px;
   letter-spacing: normal;
 }
-.card p {
-    text-align: center;
-    padding-top: 28px;
+.card span {
+    padding-top: 18px;
     letter-spacing: 1px;
+    font-size: 15px;
+    padding-left: 75px;
 }
 .card ul {
    margin-left: 65px;
@@ -539,13 +503,13 @@
   padding-right: 15px;
   margin-left: auto;
   margin-right: auto;
-  background-image: url('../assets/circle.svg');
+  background: white; 
   height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  border-radius: 50px;
+  border-radius: 50px 50px 0px 0px;
  }
 .contacter .container .contact {
     background-color: white;
@@ -557,11 +521,12 @@
 
  .contacter .container .contact .info {
    position: absolute;
-   background-color: #d01f1f;
+     background: rgb(208,31,31);
+  background: linear-gradient(90deg, rgba(208,31,31,1) 0%, rgba(135,20,184,1) 100%); 
     height: 300px;
     width: 280px;
     border-radius: 0px 60px 0px 60px;
-    left: -60px;
+    left: 10px;
     top: 60px;
  }
 
@@ -664,93 +629,6 @@
     }
 /* End Contact */
 
-/* Start footer */
-.footer{
-  width: 100%;
-  padding: 0;
-}
-
-.footer .container {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  height: 150px;
-  background: rgb(208,31,31);
-  background: linear-gradient(90deg, rgba(208,31,31,1) 0%, rgba(135,20,184,1) 100%); 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-}
-
-.footer .container .all{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-}
-
-.footer .container .all .merge{
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-.footer .container .all .merge desc{
-  height: 100%;
-}
-.footer .container .all .merge .desc h1{
-    color: white;
-    font-size: 18px;
-    margin-left: 20px;
-}
-.footer .container .all .merge .desc p{
-    color: white;
-    color: white;
-    font-size: 12px;
-    margin-left: 20px;
-}
-
-.footer .container .all ul{
-  height: 100%;
-  display: flex;
-}
-.footer .container .all li{
-  height: 100%;
-  padding: 5px;
-}
-.footer .container .all li a{
-  height: 100%;
-  padding: 5px;
-  color: white;
-}
-
-
-.footer .container .social{
-  height: 100%;
-  padding: 0;
-}
-
-.footer .container .social ul{
-  height: 100%;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.footer .container .social ul li{
-  padding: 20px;
-}
-.footer .container .social ul li:hover{
-  padding: 20px;
-  transform: translateY(-10px);
-  transition: 0.7s;
-}
-
-.footer .container .social ul li a{
-  font-size: 35px;
-  color: white;
-}
 
 
 
@@ -758,7 +636,6 @@
 
 
 
-/* End Footer */
 
 
 
@@ -767,7 +644,6 @@
 
 
 
-/* End contacter */
 
 
 
@@ -875,7 +751,8 @@ export default {
         if(value == 3) {
            this.cover1 = false
            this.cover2 = false
-           this.cover3 = true        }
+           this.cover3 = true     
+          }
     },
 
     Image(value) {
@@ -917,12 +794,49 @@ export default {
         this.images5 = true
       }
 
+    },
+    sliderRepetitionOne() {
+      setTimeout(()=> {
+
+        const tab = new Array();
+        tab[1] = this.cover1
+        tab[2] = this.cover2
+        tab[3] = this.cover3
+        const index = tab.findIndex((n) => n == true)
+
+        switch(index) {
+          case 1:
+             this.cover1 = false
+             this.cover3 = true
+            break;
+          case 2:
+             this.cover2 = false
+             this.cover1 = true
+            break;
+          case 3:
+             this.cover3 = false
+             this.cover2 = true
+            break;  
+        }
+        this.sliderRepetitionTow()
+      },5000)
+
+
+    },
+    
+    sliderRepetitionTow() {
+      this.sliderRepetitionOne()
     }
+
   },
 
   computed: {
 
-  }
+  },
+
+  mounted(){
+    this.sliderRepetitionOne()
+  },
 
 }
 

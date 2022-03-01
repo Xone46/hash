@@ -83,7 +83,8 @@ export default {
 <style>
 .client {
   height: 100%;
-  margin-top: 20px;
+  margin-top: 0px;
+  padding: 0;
 }
 .client .container {
   padding-left: 15px;
@@ -95,19 +96,11 @@ export default {
   align-items: center;
 
 }
-.client .container {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 
-}
 .client .container .col{
 
 width:calc((100%-30px)/2);
+padding: 90px;
 
 }
 .client .container .col h3{

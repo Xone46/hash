@@ -1239,6 +1239,28 @@ export default {
 
     const token = sessionStorage.getItem("token");
 
+    if(!token)
+    {
+            this.$router.push('/admin');
+    }
+
+      // Get Auth Account Admin
+      DashboardService.getAdmin(token)
+      .then((data) => {
+        if (data) {
+          sessionStorage.setItem("id", data.admin._id);
+          if(data.admin.status == 1)
+          {
+            this.statusAdmin = true
+          }
+        } else {
+            this.$router.push('/admin');
+        }
+      })
+      .catch((error) => {
+        console.error(`HTTP error: ${error.name} => ${error.message}`);
+      });
+
     // show all Observations
       ClientService.observations()      
       .then((data) => {
@@ -1272,21 +1294,7 @@ export default {
         throw "fail request at: GET /refreshtime";
       });
 
-    // Get Auth Account Admin
-      DashboardService.getAdmin(token)
-      .then((data) => {
-        if (data) {
-          sessionStorage.setItem("id", data.admin._id);
-          if(data.admin.status == 1)
-          {
-            this.statusAdmin = true
-          }
-        }
-      })
-      .catch((error) => {
-        console.error(`HTTP error: ${error.name} => ${error.message}`);
-        throw "fail request at: GET /refreshtime";
-      });
+
 
       // Get All Clients
       ClientService.show()      
