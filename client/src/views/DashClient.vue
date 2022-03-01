@@ -253,6 +253,7 @@ export default {
 }
 .dash .container .menuParent {
   width: 25%;
+  margin-top: 120px;
 }
 .dash .container .tableParent {
   width: 100%;

@@ -25,7 +25,7 @@
            <!-- end logo -->
 
            <!-- Start Navbar -->
-            <ul class="main-nav" v-if="!$route.path.match('/dashadmin')">
+            <ul class="main-nav" v-if="!$route.path.match('/dashclient')">
               <li v-if="$route.path.match('/client') || $route.path.match('/admin')">
                   <a href="/">Accueil</a>
               </li>
@@ -60,7 +60,7 @@
     <!-- Start page  -->
     <router-view/>
     <!-- End page -->
-      <div class="footer">
+      <div class="footer" v-if="!$route.path.match('/dashadmin')">
         <div class="container">
           <div class="all">
 
@@ -201,6 +201,7 @@
 .header .container .bottom-header .main-nav > li > a:hover::after  {
  left: 0;
 }
+
 
 /* Start footer */
 .footer{

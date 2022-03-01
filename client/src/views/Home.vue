@@ -1,6 +1,6 @@
 <template>
 
-
+<!-- start landing -->
   <div class="landing">
       <div class="container">
 
@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-
+   <!-- start prestation -->
       <div class="prestation" id="prestation">
         <h1>Nos prestations</h1>
         <div class="container">
@@ -114,7 +114,18 @@
 
         </div>
       </div>
+<!-- end prestation -->
 
+<!-- Start solutions -->
+      <!-- <div class="solutions" id="#solutions">
+        <div class="container">
+          <h1>Nos solutions</h1>
+          
+        </div>
+      </div> -->
+<!-- End Solutions -->
+
+<!-- start contact -->
       <div class="contacter" id="contacter">
         <h1>Nous contacter</h1>
         <div class="container">
@@ -155,6 +166,8 @@
         </div>
 
       </div>
+
+      <!-- end contact -->
 
 
 
@@ -632,6 +645,30 @@
 
 
 
+/* start solutions */
+
+.solutions {
+  width: 100%;
+  padding: 0;
+  margin-top: 40px;
+}
+.solutions .container {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.solutions .container h1 {
+
+  color: #374173;
+  text-align: center;
+  font-weight: 800;
+  font-size: 25px;
+  letter-spacing: normal;
+}
+
+
+/* end solutions */
 
 
 
@@ -655,17 +692,6 @@
 </style>
 
 <script>
-// const arr = [1,2,3]
-
-// function handelSlider() {
-
-// const value = arr[(Math.random() * arr.length) | 0];
- 
-//     setTimeout(()=> {
-//       handelSlider()} ,10000)
-//     }
-
-//   handelSlider()
 
 export default {
   name: "Home",

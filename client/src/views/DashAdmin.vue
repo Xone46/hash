@@ -6,32 +6,9 @@
       <div class="menuParent">
         <b-menu>
           <b-menu-list label="Menu">
-            <b-menu-item icon="information-outline" label="Clients">
-              <b-menu-item label="Ajouter un client" @click="(event) => {
-                this.flagRegistre = true
-                this.flagShowTableClients = false
-                this.flagUpdate = false 
-                this.flagUpdate = false
-                this.flagSucces = false
-                this.flagEchec = false
-                this.falgShowRapport = false
-                this.flagProfileAdmin = false
-                this.flagShowTableAdmins= false
-                this.flagRegistreAdmin = false
-                this.flagHandlerObservation = false
-                this.nom = ''
-                this.prenom = ''
-                this.email = ''
-                this.password = Math.random().toString(36).slice(-8)
-                this.adresse = ''
-                this.ville = ''
-                this.pays = ''
-                this.telephone = ''
-                this.refClient = ''
-                this.nomSociete =''
-                }">
-              </b-menu-item>
+            <b-menu-item icon="information-outline" label="Clients" v-if="statusAdmin">
               <b-menu-item label="Aperçu" @click="(event) => {this.flagRegistre = false; this.flagShowTableClients = true; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false ; this.flagUpload = false; this.falgShowRapport= false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin = false; this.flagHandlerObservation = false; }"></b-menu-item>
+              <b-menu-item label="Ajouter un client"  @click="(event) => { this.flagRegistre = true; this.flagShowTableClients = false; this.flagUpdate = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.falgShowRapport = false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin = false; this.flagHandlerObservation = false; this.nom = ''; this.prenom = ''; this.email = ''; this.password = Math.random().toString(36).slice(-8); this.adresse = ''; this.ville = ''; this.pays = ''; this.telephone = ''; this.refClient = ''; this.nomSociete ='' }"></b-menu-item>
               <b-menu-item label="Les rapports" @click="(event) => { this.falgShowRapport= true ;this.flagRegistre = false; this.flagShowTableClients = false; this.flagUpdate = false; this.flagSucces = false; this.flagEchec = false; this.flagUpload = false; this.flagProfileAdmin = false; this.flagShowTableAdmins= false; this.flagRegistreAdmin =false; this.flagHandlerObservation = false }"> 
                 <select  v-model="year" @change="showRapportWithYear">
                   <option value="2022">2022</option>
@@ -802,7 +779,6 @@ export default {
       },
      // register Admin 
      registerAdmin() {
-       console.log(this.nom + ' '+ this.prenom + ' '+ this.email + ' '+ this.password + ' '+ this.refEmp + ' '+ this.status + ' '+ this.code)
       AdminService.register(this.nom, this.prenom, this.email, this.password, this.refEmp, this.status, this.code)
         .then((data) => {
           if (data) {
@@ -1350,9 +1326,14 @@ export default {
 }
 .dash .container .menuParent {
   width: 25%;
+  margin-top: 90px;
+
 }
 .dash .container .tableParent {
+
   width: 100%;
+  margin-top: 100px;
+
 }
 .dash .container .tableParent .table {
   width: 100%;
