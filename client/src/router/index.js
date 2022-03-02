@@ -16,6 +16,22 @@ const routes = [
     component: Home
   },
   {
+    path: '/gthconsult',
+    component: Home
+  },
+  {
+    path: '/solutions',
+    component: Home
+  },
+  {
+    path: '/contacter',
+    component: Home
+  },
+  {
+    path: '/prestation',
+    component: Home
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

@@ -11,7 +11,7 @@
          <!--  start top Header -->
         <div class="top-header">
           <p>GTH consult Bureau de contrôle agréé par l’état</p>
-          <p> <i class="fa-solid fa-location-dot"></i> 3<sup>ème</sup> Étage Appartement N<sup>o</sup> 09, Mohammédia, Maroc</p>
+          <p> <i class="fa-solid fa-location-dot"></i> Bd Mohammed 6 Lot Al massira 3<sup>ème</sup> Étage Appartement N<sup>o</sup> 09, Mohammédia, Maroc</p>
           <p> <i class="fa-solid fa-phone"></i> +212 5 23 27 27 74 <i class="fa-solid fa-print"></i> +212 5 23 27 29 79</p>
         </div>
         <!-- end top header -->

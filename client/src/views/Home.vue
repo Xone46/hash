@@ -1,179 +1,180 @@
 <template>
+<div>
 
-<!-- start landing -->
-  <div class="landing">
-      <div class="container">
 
-        <div class="image" v-bind:class="{ 'cover1': cover1, 'cover2': cover2, 'cover3': cover3 }">
-            <div class="text">
-              <div class="content">
-                <h1>GTH Consult <br>Pour le respect de vos obligations réglementaires et volontaires</h1>
-                <p>Vérifications Réglementaires ou volontaires des installations techniques et des risques au travail</p>
+          <!-- start landing -->
+          <div class="landing">
+              <div class="container">
+
+                <div class="image" v-bind:class="{ 'cover1': cover1, 'cover2': cover2, 'cover3': cover3 }">
+                    <div class="text">
+                      <div class="content">
+                        <h1>GTH Consult <br>Pour le respect de vos obligations réglementaires et volontaires</h1>
+                        <p>Vérifications Réglementaires ou volontaires des installations techniques et des risques au travail</p>
+                      </div>
+                    </div>
+                    <a @click="slider('left')"><i  class="fas fa-angle-left change-background fa-2x"></i></a>
+                    <a @click="slider('right')"><i class="fas fa-angle-right change-background fa-2x"></i></a>
+                    <ul class="bullets">
+                      <li @mouseover="selectSlider(1)"></li>
+                      <li @mouseover="selectSlider(2)" class="active"></li>
+                      <li @mouseover="selectSlider(3)"></li>
+                    </ul>
+                </div>
+              </div>
+          </div>
+          <!-- End Landing  -->
+  
+          <!-- Start gthconsult -->
+          <div class="gthconsult" id="gthconsult">
+            <h1>Notre objectif est de répondre à vos obligations réglementaires et volontaires</h1>
+            <div class="blogs">
+              <div class="blogOne">
+                <div class="card">
+                  <img src="../assets/risk.png"  class="risk" alt="risk">
+                    <h1>Maîtrise des risques</h1>
+                    <span> 
+                        Accompagner les chefs d’établissements et les
+                        exploitants pour répondre à leurs obligations
+                        réglementaires ou volontaires en matière de gestion
+                        des risques professionnels, protection des personnes
+                        et des biens ainsi que de l’environnement.
+                    </span>
+                </div>
+              </div>
+              <div class="blogTow">
+                <div class="card">
+                    <img src="../assets/know.png"  class="know" alt="know">
+                    <h1>Partage du savoir</h1>
+                    <span>
+                      Notre capital est notre savoir-faire, nos compétences
+                      et le respect de la réglementation. Notre vocation de
+                      tierce partie indépendante nous impose le partage de
+                      ces compétences et de ces savoirs entre nos
+                      collaborateurs, avec nos clients et les institutions.
+                    </span>
+                </div>
+              </div>
+              <div class="blogTree">
+                <div class="card">
+                    <img src="../assets/quality.png"  class="quality" alt="quality">
+                    <h1>Interlocuteur privilégié</h1>
+                    <span>
+                      Mettre à la disposition de notre client un interlocuteur
+                      unique habilité à prendre toute décisions pour
+                      garantir la qualité de nos prestations, le respect de
+                      nos engagements et notre disponibilité pour nos
+                      clients.
+
+                    </span>
+                </div>
+              </div>
+              <div class="blogFour">
+                <div class="card">
+                    <img src="../assets/help.png"  class="help" alt="help">
+                    <h1>Nos valeurs</h1>
+                    <ul>
+                      <li> • Qualité de la prestation</li>
+                      <li> • Veille réglementaire</li>
+                      <li> • Respect de la réglementation</li>
+                      <li> • Répondre aux besoins clients</li>
+                      <li> • Sécurité de nos collaborateurs</li>
+                      <li> • Innovation et performance</li>
+                    </ul>
+                </div>
               </div>
             </div>
-            <a @click="slider('left')"><i  class="fas fa-angle-left change-background fa-2x"></i></a>
-            <a @click="slider('right')"><i class="fas fa-angle-right change-background fa-2x"></i></a>
-            <ul class="bullets">
-              <li @mouseover="selectSlider(1)"></li>
-              <li @mouseover="selectSlider(2)" class="active"></li>
-              <li @mouseover="selectSlider(3)"></li>
-            </ul>
-        </div>
-      </div>
-
-      <div class="gthconsult" id="gthconsult">
-        <h1>Notre objectif est de répondre à vos obligations réglementaires et volontaires</h1>
-        <div class="blogs">
-          <div class="blogOne">
-            <div class="card">
-              <img src="../assets/risk.png"  class="risk" alt="risk">
-                <h1>Maîtrise des risques</h1>
-                <span> 
-                    Accompagner les chefs d’établissements et les
-                    exploitants pour répondre à leurs obligations
-                    réglementaires ou volontaires en matière de gestion
-                    des risques professionnels, protection des personnes
-                    et des biens ainsi que de l’environnement.
-                </span>
-            </div>
           </div>
-          <div class="blogTow">
-            <div class="card">
-                <img src="../assets/know.png"  class="know" alt="know">
-                <h1>Partage du savoir</h1>
-                <span>
-                  Notre capital est notre savoir-faire, nos compétences
-                  et le respect de la réglementation. Notre vocation de
-                  tierce partie indépendante nous impose le partage de
-                  ces compétences et de ces savoirs entre nos
-                  collaborateurs, avec nos clients et les institutions.
-                </span>
-            </div>
-          </div>
-          <div class="blogTree">
-            <div class="card">
-                <img src="../assets/quality.png"  class="quality" alt="quality">
-                <h1>Interlocuteur privilégié</h1>
-                <span>
-                  Mettre à la disposition de notre client un interlocuteur
-                  unique habilité à prendre toute décisions pour
-                  garantir la qualité de nos prestations, le respect de
-                  nos engagements et notre disponibilité pour nos
-                  clients.
+          <!-- End Gthconsult -->
 
-                </span>
-            </div>
-          </div>
-          <div class="blogFour">
-            <div class="card">
-                <img src="../assets/help.png"  class="help" alt="help">
-                <h1>Nos valeurs</h1>
-                <ul>
-                  <li> • Qualité de la prestation</li>
-                  <li> • Veille réglementaire</li>
-                  <li> • Respect de la réglementation</li>
-                  <li> • Répondre aux besoins clients</li>
-                  <li> • Sécurité de nos collaborateurs</li>
-                  <li> • Innovation et performance</li>
-                </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-   <!-- start prestation -->
-      <div class="prestation" id="prestation">
-        <h1>Nos prestations</h1>
-        <div class="container">
+          <!-- start prestation -->
+          <div class="prestation" id="prestation">
+            <h1>Nos prestations</h1>
+            <div class="container">
 
-            <div class="titre">
+                <div class="titre">
+                            <div class="titreBox" @mouseover="Image(1)">
+                                <h1>Contrôles réglementaires des installations techniques</h1>
+                            </div>
 
-                        <div class="titreBox" @mouseover="Image(1)">
-                            <h1>Contrôles réglementaires des installations techniques</h1>
-                        </div>
+                            <div class="titreBox" @mouseover="Image(2)">
+                                <h1>Formations réglementaires et techniques</h1> 
+                            </div>
 
-                        <div class="titreBox" @mouseover="Image(2)">
-                            <h1>Formations réglementaires et techniques</h1> 
-                        </div>
+                            <div class="titreBox" @mouseover="Image(3)">
+                                <h1>Audits et assistance technique</h1> 
+                            </div>
 
-                        <div class="titreBox" @mouseover="Image(3)">
-                            <h1>Audits et assistance technique</h1> 
-                        </div>
-
-                        <div class="titreBox" @mouseover="Image(4)">
-                            <h1>Contrôles risques travailleurs</h1>
-                        </div>
-                        
-                        <div class="titreBox" @mouseover="Image(5)">
-                            <h1>Contrôles environnementaux</h1> 
-                        </div>
-
-            </div>
-
-            <div v-bind:class="{ 'images1': images1, 'images2': images2, 'images3': images3, 'images4': images4, 'images5': images5 }">
-            </div>
-
-        </div>
-      </div>
-<!-- end prestation -->
-
-<!-- Start solutions -->
-      <!-- <div class="solutions" id="#solutions">
-        <div class="container">
-          <h1>Nos solutions</h1>
-          
-        </div>
-      </div> -->
-<!-- End Solutions -->
-
-<!-- start contact -->
-      <div class="contacter" id="contacter">
-        <h1>Nous contacter</h1>
-        <div class="container">
-          <div class="contact">
-            <div class="info">
-              <h2>Informations de contact</h2>
-              <ul>
-                <li><span><i class="fa-solid fa-location-dot"></i>  3<sup>ème</sup> Étage Appartement N<sup>o</sup> 09 Mohammédia, Maroc</span></li>
-                <li><span><i class="fa-solid fa-phone"></i>  +212 5 23 27 27 74 </span></li>
-                <li><span><i class="fa-solid fa-print"></i>  +212 5 23 27 29 79 </span></li>
-                <li><span><i class="fa-solid fa-at"></i>  services@gthconsult.ma</span></li>
-              </ul>
-            </div>
-            <div class="contactForm">
-                <h2>Envoyer votre message</h2>
-                <div class="formBox">
-
-                  <div class="inputBox w50">
-                    <input type="text" name=""  placeholder="Nom, Prénom" required >
-                  </div>
-
-                  <div class="inputBox w50">
-                    <input type="text" name=""  placeholder="Téléphone" required>
-                  </div>
-
-                  <div class="inputBox w100">
-                    <textarea name="" required placeholder="Message"></textarea>
-                  </div>
-
-                  <div class="inputBox w100">
-                    <input type="submit" value="send">
-                  </div>
-
+                            <div class="titreBox" @mouseover="Image(4)">
+                                <h1>Contrôles risques travailleurs</h1>
+                            </div>
+                            
+                            <div class="titreBox" @mouseover="Image(5)">
+                                <h1>Contrôles environnementaux</h1> 
+                            </div>
                 </div>
 
-              </div>
+                <div v-bind:class="{ 'images1': images1, 'images2': images2, 'images3': images3, 'images4': images4, 'images5': images5 }"></div>
+            </div>
           </div>
-        </div>
+          <!-- end prestation -->
 
-      </div>
+          <!-- Start solutions -->
+              <div class="solutions" id="solutions">
+                <div class="container">
+                  <h1>Nos solutions</h1>
+                  <h1>{{ pub }}</h1>
+                </div>
+              </div>
+          <!-- End Solutions -->
 
-      <!-- end contact -->
+          <!-- start contact -->
+          <div class="contacter" id="contacter">
+            <h1>Nous contacter</h1>
+            <div class="container">
+              <div class="contact">
+                <div class="info">
+                  <h2>Informations de contact</h2>
+                  <ul>
+                    <li><span><i class="fa-solid fa-location-dot"></i> Bd Mohammed 6 Lot Al massira 3<sup>ème</sup> Étage Appartement N<sup>o</sup> 09 Mohammédia, Maroc</span></li>
+                    <li><span><i class="fa-solid fa-phone"></i>  +212 5 23 27 27 74 </span></li>
+                    <li><span><i class="fa-solid fa-print"></i>  +212 5 23 27 29 79 </span></li>
+                    <li><span><i class="fa-solid fa-at"></i>  services@gthconsult.ma</span></li>
+                  </ul>
+                </div>
+                <div class="contactForm">
+                    <h2>Envoyer votre message</h2>
+                    <div class="formBox">
+
+                      <div class="inputBox w50">
+                        <input type="text" name=""  placeholder="Nom, Prénom" required >
+                      </div>
+
+                      <div class="inputBox w50">
+                        <input type="text" name=""  placeholder="Téléphone" required>
+                      </div>
+
+                      <div class="inputBox w100">
+                        <textarea name="" required placeholder="Message"></textarea>
+                      </div>
+
+                      <div class="inputBox w100">
+                        <input type="submit" value="send">
+                      </div>
+
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- end contact -->
 
 
 
-  </div>
 
-
+</div>
 
 </template>
 
@@ -289,6 +290,15 @@
 .gthconsult {
     height: 600px;
 }
+.gthconsult h1:nth-child(1){
+
+    text-align: center;
+    padding-top: 50px;
+    font-size: 50px;
+    font-style: oblique;
+    font-weight: 900;
+    opacity: 0.5;
+    }
 
 .blogs {
   margin: 0;
@@ -387,7 +397,8 @@
 /* start prestation */
 .prestation {
   width: 100%;
-  margin-top: 40px;
+  margin-top: 200px;
+  padding: 0px;
 }
 
 .prestation > h1 {
@@ -550,7 +561,7 @@
     margin-top: 25px;
  }
  .contacter .container .contact .info ul{
-  padding-top: 30px;
+  padding-top: 10px;
 
  }
 
@@ -583,7 +594,7 @@
  }
 
   .contacter .container .contact .contactForm h2 {
-   color: #8714b8;
+   color: #374173;
    font-size: 25px;
    margin-top: 15px;
    text-align: center;
@@ -657,8 +668,9 @@
   padding-right: 15px;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 }
-.solutions .container h1 {
+.solutions .container h1:nth-child(1) {
 
   color: #374173;
   text-align: center;
@@ -666,8 +678,16 @@
   font-size: 25px;
   letter-spacing: normal;
 }
+.solutions .container h1:nth-child(2) {
 
+    text-align: center;
+    padding-top: 50px;
+    font-size: 50px;
+    font-style: oblique;
+    font-weight: 900;
+    opacity: 0.5;
 
+}
 /* end solutions */
 
 
@@ -705,6 +725,7 @@ export default {
       cover1 : true,
       cover2 : false,
       cover3 : false,
+      pub : "LE LEADER DES BUREAU DE CONTROLE À MAROC",
     }
   },
   methods : {
@@ -852,7 +873,7 @@ export default {
     
     sliderRepetitionTow() {
       this.sliderRepetitionOne()
-    }
+    },
 
   },
 
@@ -862,6 +883,7 @@ export default {
 
   mounted(){
     this.sliderRepetitionOne()
+    this.publiciteOne()
   },
 
 }
