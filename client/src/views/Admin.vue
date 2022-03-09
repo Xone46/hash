@@ -99,8 +99,10 @@ export default {
 
 .client .container .col{
 
-width:calc((100%-30px)/2);
-padding: 90px;
+    width:calc((100%-30px)/2);
+    padding: 90px;
+    margin-top: 100px;
+
 
 }
 .client .container .col h3{

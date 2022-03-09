@@ -87,7 +87,7 @@ export default {
 <style>
 .client {
   height: 100%;
-  margin-top: 0px;
+  margin-top: 100px;
   padding: 0;
 }
 .client .container {
@@ -105,6 +105,7 @@ export default {
 
     width:calc((100%-30px)/2);
     padding: 90px;
+    margin-top: 100px;
 
 }
 .client .container .col h3{

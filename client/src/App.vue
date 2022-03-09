@@ -1,295 +1,202 @@
 <template>
   <div id="app">
     
-
-
     <!-- Start Header General -->
-
-    <div id="header" class="header">
-      <div class="container">
-
-         <!--  start top Header -->
-        <div class="top-header">
-          <p>GTH consult Bureau de contrôle agréé par l’état</p>
-          <p> <i class="fa-solid fa-location-dot"></i> Bd Mohammed 6 Lot Al massira 3<sup>ème</sup> Étage Appartement N<sup>o</sup> 09, Mohammédia, Maroc</p>
-          <p> <i class="fa-solid fa-phone"></i> +212 5 23 27 27 74 <i class="fa-solid fa-print"></i> +212 5 23 27 29 79</p>
-        </div>
-        <!-- end top header -->
-  
-
-
-        <!-- start bootom Header -->
-        <div class="bottom-header">
-           <!--  start logo -->
-            <img alt="" src="@/assets/logo.png" class="logo">
-           <!-- end logo -->
-
-           <!-- Start Navbar -->
-            <ul class="main-nav" v-if="!$route.path.match('/dashclient')">
-              <li v-if="$route.path.match('/client') || $route.path.match('/admin')">
-                  <a href="/">Accueil</a>
-              </li>
-              <li v-if="!$route.path.match('/client') && !$route.path.match('/admin')">
-                  <a href="#gthconsult">GTH consult</a>
-              </li>
-              <li v-if="!$route.path.match('/client') && !$route.path.match('/admin')">
-                  <a href="#prestation">Nos prestations</a>
-              </li>
-              <li v-if="!$route.path.match('/client') && !$route.path.match('/admin')">
-                  <a href="#solutions">Nos solutions</a>
-              </li>
-              <li v-if="!$route.path.match('/client') && !$route.path.match('/admin')">
-                <router-link to="/client">
-                  <a href="">Espace Clients</a>
-                </router-link>
-              </li>
-              <li v-if="!$route.path.match('/client') && !$route.path.match('/admin')">
-                  <a href="#contacter">Nous contacter</a>
-              </li>
+  <div class="header">
+    <div class="container">
+          <div class="top">
+            <ul>
+              <li> GTHCONSULT Bureau de contrôle agréé par l’état</li>
+              <li><i class="fa-solid fa-location-dot"></i><span> Bd Mohammed 6 Lot Al massira 3<sup>ème</sup> Étage Appartement N<sup>o</sup> 09, Mohammédia, Maroc</span></li>
+              <li><i class="fa-solid fa-phone"></i><span> +212 5 23 27 27 74</span> <i class="fa-solid fa-print"></i><span> +212 5 23 27 29 79</span></li>
             </ul>
-            <!-- End Navbar -->
-
-        </div>
-        <!-- end bootom Header -->
-      </div>
+          </div>
+          <div class="bottom">
+              <div class="logo">
+                <img src="./assets/logogth.png" alt="logo gthconsult" href="/">
+              </div>
+              <div class="nav">
+                <ul>
+                  <li><a href="/#gthconsult">GTHCONSULT</a></li>
+                  <li><a href="/#prestation"> Nos prestations</a></li>
+                  <li><a href="/#solutions"> Nos solutions</a></li>
+                  <li><a href="/#Realisations"> Réalisations</a></li>
+                  <li><a href="/#contact"> Contacter</a></li>
+                  <li><a> <router-link to="/client">Clients </router-link></a></li>             
+                </ul>
+              </div>
+          </div>
     </div>
+
+  </div>
 
     <!-- End Header General -->
      
-
     <!-- Start page  -->
     <router-view/>
     <!-- End page -->
-      <div class="footer" v-if="!$route.path.match('/dashadmin')">
-        <div class="container">
-          <div class="all">
-
-              <div class="merge">
-                <div class="img">
-                  <img src="@/assets/logo.png" alt="">
-                </div>
-                <div class="desc">
-                  <h1> GTH consult</h1>
-                  <p>
-                  Le Groupe Gthconsult recherche <br>
-                  sans cesse de nouveaux talents et <br> 
-                  compétences : contrôleur technique, coordonnateur <br>
-                  SPS, diagnostiqueur immobilier, technicien... Découvrez <br>
-                  nos opportunités de carrière !</p>
-                </div>
-              </div>
-
-              <ul>
-                <li><a href="">© 2022 Bureau GTHconsult |</a></li>
-                <li><a href="">Plan du site |</a> </li>
-                <li><a href="">Mentions légales |</a></li>
-                <li><a href="">Politique de confidentialité |</a></li>
-                <li><a href="">Politique Cookies </a></li>
-              </ul>
-
-          </div>
-          <div class="social">
-            <ul>
-              <li><a href=""><i class="fa-brands fa-facebook"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-twitter"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-linkedin"></i></a></li>
-              <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
-            </ul>
-          </div>            
-        </div>
-      </div>
-   
-  </div>
+    </div> 
 </template>
+<script>
+
+export default {
+
+    data() {
+        return  {
+
+        }
+    },
+
+    methods: {
+
+             
+    },
+
+    mounted() {
+
+    }
+
+}
+</script>
 
 <style scoped>
 #app {
+  padding: 0;
   height: 100%;
+  width: 100%;
 }
 .header{
-  position: fixed;
-  width: 100%;
-  z-index: 1000;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    padding: 0;
 }
-
 .header .container {
-  padding-left: 15px;
+  padding-left:15px;
   padding-right: 15px;
+  padding-top: 0;
+  padding-bottom: 0;
   margin-left: auto;
   margin-right: auto;
+  border: 0px;
+  height: 130px;
 }
 
-.header .container .top-header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: black;
-}
-.header .container .top-header p {
-  color :#cfcbcb;
-  font-size: 13px;
-}
-
-.header .container .bottom-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color:white;
-}
-.header .container .bottom-header .logo {
-  width: 49px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header .container .bottom-header .main-nav {
-  display: flex;
-}
-.header .container .bottom-header .main-nav > li > a  {
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 72px;
+.header .container .top {
+  padding: 0;
+  height: 40px;
+  background-color: #07134a;
+  margin: 0;
   position: relative;
-  padding: 0 10px;
-  color : var(--alt-main-color);
-  transition: var(--main-transition);
-  overflow: hidden;
-
-}
-
-.header .container .bottom-header .main-nav > li > a::before  {
-
-  content :"";
-  position: absolute;
-  background-color: var(--main-color);
-  width : 100%;
-  height: 5px;
-  bottom: 0;
-  left :-100%;
-  transition: var(--main-transition);
-
-}
-
-.header .container .bottom-header .main-nav > li > a::after  {
-
-  content :"";
-  position: absolute;
-  background-color: var(--main-color);
-  width : 100%;
-  height: 5px;
-  top: 0;
-  left :-100%;
-  transition: var(--main-transition);
-
-}
-
-.header .container .bottom-header .main-nav > li > a:hover  {
-
-  color: var(--main-color);
-  background-color: #fafafa;
-
-}
-
-.header .container .bottom-header .main-nav > li > a:hover::before  {
- left: 0;
-}
-
-.header .container .bottom-header .main-nav > li > a:hover::after  {
- left: 0;
 }
 
 
-/* Start footer */
-.footer{
-  width: 100%;
+
+
+.header .container .top ul {
+  height: 100%;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  
 }
 
-.footer .container {
+.header .container .top ul li {
+  color: #ffffffd4;
   padding-left: 15px;
   padding-right: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  height: 150px;
-  background: rgb(208,31,31);
-  background: linear-gradient(90deg, rgba(208,31,31,1) 0%, rgba(135,20,184,1) 100%); 
+  font-size: 12px;
+}
+
+.header .container .bottom {
+  padding: 0;
+  height: 60px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin: 0;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-
+  position: relative;
+  border-radius: 0px 0px 40px 0px;
+  background-color: white;
 }
 
-.footer .container .all{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-}
-
-.footer .container .all .merge{
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-.footer .container .all .merge desc{
-  height: 100%;
-}
-.footer .container .all .merge .desc h1{
-    color: white;
-    font-size: 18px;
-    margin-left: 20px;
-}
-.footer .container .all .merge .desc p{
-    color: white;
-    color: white;
-    font-size: 12px;
-    margin-left: 20px;
-}
-
-.footer .container .all ul{
-  height: 100%;
-  display: flex;
-}
-.footer .container .all li{
-  height: 100%;
-  padding: 5px;
-}
-.footer .container .all li a{
-  height: 100%;
-  padding: 5px;
-  color: white;
-}
-
-
-.footer .container .social{
-  height: 100%;
+.header .container .bottom .logo {
   padding: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.footer .container .social ul{
-  height: 100%;
+.header .container .bottom .logo img {
+    width: 130px;
+    padding: 10px;
+}
+
+.header .container .bottom .nav{
   padding: 0;
+  height: 100%;
+}
+
+.header .container .bottom .nav ul{
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.header .container .bottom .nav ul li{
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 100%;
   display: flex;
   align-items: center;
 }
 
-.footer .container .social ul li{
-  padding: 20px;
+.header .container .bottom .nav ul li a{
+  color: #07134a;
 }
-.footer .container .social ul li:hover{
-  padding: 20px;
-  transform: translateY(-10px);
-  transition: 0.7s;
-}
-
-.footer .container .social ul li a{
-  font-size: 35px;
+.header .container .bottom .nav ul li:nth-child(6) a{
   color: white;
 }
-/* End footer */
+
+
+
+.header .container .bottom .nav ul li:hover{
+    border-bottom: 4px solid #d01f1f;
+    transition: 0.15s;
+    color :#d01f1f;
+    font-weight: bold;
+
+}
+
+.header .container .bottom .nav ul li:nth-child(6) a:hover{
+    color :#d01f1f;
+}
+
+
+
+.header .container .bottom .nav ul li:nth-child(6){
+   background-color: #d01f1f;
+   font-size: 20px;
+   font-weight: bold;
+   color: white;
+   height: 100%;
+   border-radius: 40px 0px 40px 0px;
+}
+
+.header .container .bottom .nav ul li:nth-child(6):hover{
+   background-color: white;
+   color: #d01f1f;
+   font-weight: bold;
+   height: 100%;
+   transition: 0.7s;
+   
+}
+
+
+
 
 </style>

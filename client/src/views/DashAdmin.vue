@@ -1326,13 +1326,13 @@ export default {
 }
 .dash .container .menuParent {
   width: 25%;
-  margin-top: 90px;
+  margin-top: 200px;
 
 }
 .dash .container .tableParent {
 
   width: 100%;
-  margin-top: 100px;
+  margin-top: 200px;
 
 }
 .dash .container .tableParent .table {

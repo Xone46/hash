@@ -7,6 +7,7 @@ const routerClient = require('./routes/client');
 const routerDashboard = require('./routes/dashboard');
 const routerAdmin = require('./routes/admin');
 const routerRapport = require('./routes/rapport');
+const routerMessage = require('./routes/message');
 const cors = require('cors');
 const path = require('path');
 const methodOverride = require('method-override');
@@ -15,7 +16,7 @@ const { PORT, DB_NAME, DB_PASSWORD, DB_USER, NODE_ENV} = require('./config');
 
 
 // connection 
-const connectionStr = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.wkroh.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
+const connectionStr = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.gtvlx.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 mongoose.Promise = global.Promise
 mongoose.connect(connectionStr, {useNewUrlParser : true, useUnifiedTopology : true})
 .then(()=> {
@@ -26,7 +27,7 @@ mongoose.connect(connectionStr, {useNewUrlParser : true, useUnifiedTopology : tr
 })
 
 
-// configure the app to use bodyParser() and cros
+// configure the app to use bodyParser() and cros and method request
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -44,6 +45,7 @@ app.use('/api/clients', routerClient);
 app.use('/api/admins', routerAdmin);
 app.use('/api/dashboard', routerDashboard);
 app.use('/api/files', routerRapport);
+app.use('/api/message', routerMessage);
 
 
 // pour afficher les erreur
@@ -57,6 +59,7 @@ app.use((err, req, res, next) => {
 })
 
 
+// pour affiche index.html a la fin de production app
 
 if(NODE_ENV === 'production') {
     app.use(express.static('public'));
